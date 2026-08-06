@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { LearningProgressModule } from './modules/learning-progress/learning-progress.module';
@@ -27,6 +29,11 @@ import { OutboxEventEntity } from './modules/outbox-pattern/entities/outbox-even
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public/docs'),
+      serveRoot: '/docs',
+      exclude: ['/api/(.*)'],
+    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST || 'localhost',
@@ -43,7 +50,7 @@ import { OutboxEventEntity } from './modules/outbox-pattern/entities/outbox-even
         OutboxOrderEntity,
         OutboxEventEntity,
       ],
-      synchronize: true,
+      synchronize: false,
     }),
     LearningProgressModule,
     DbPaginationModule,

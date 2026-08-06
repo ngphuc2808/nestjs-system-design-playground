@@ -18,6 +18,16 @@ export class DbPaginationOptimizedController {
     return this.optimizedService.getKeysetUsers(dto);
   }
 
+  @Get('optimized/users/page-map')
+  getPrecomputedPageMapUsers(@Query() dto: OffsetPaginationDto) {
+    return this.optimizedService.getPrecomputedPageMapUsers(dto);
+  }
+
+  @Post('optimized/users/page-map/refresh')
+  refreshPageMap(@Query('limit') limit?: number) {
+    return this.optimizedService.refreshPageMap(Number(limit) || 20);
+  }
+
   @Post('seed')
   seedUsers(@Body() dto: SeedUsersDto) {
     return this.optimizedService.seedUsers(dto);

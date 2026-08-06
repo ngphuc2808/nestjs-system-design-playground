@@ -8,8 +8,17 @@ import { DbPaginationOptimizedController } from './controllers/db-pagination-opt
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserBenchmarkEntity])],
-  controllers: [DbPaginationNaiveController, DbPaginationOptimizedController],
-  providers: [DbPaginationNaiveService, DbPaginationOptimizedService],
-  exports: [DbPaginationNaiveService, DbPaginationOptimizedService],
+  controllers: [
+    DbPaginationNaiveController,
+    DbPaginationOptimizedController,
+  ],
+  providers: [
+    DbPaginationNaiveService,
+    DbPaginationOptimizedService,
+  ],
+  exports: [
+    DbPaginationNaiveService,
+    DbPaginationOptimizedService,
+  ],
 })
 export class DbPaginationModule {}

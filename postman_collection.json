@@ -2,7 +2,7 @@
   "info": {
     "_postman_id": "nestjs-system-design-playground-master-collection",
     "name": "⚡ NestJS System Design & High-Concurrency Playground (Master Collection)",
-    "description": "Master Postman Collection covering all 12 System Design & High-Concurrency modules + System Documentation Portal APIs.",
+    "description": "Master Postman Collection covering all 12 System Design & High-Concurrency modules + System Documentation Portal APIs + Full Advanced Read Pagination Suite.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -54,57 +54,104 @@
       ]
     },
     {
-      "name": "Phase 1.1 — Database Pagination Benchmark (10M Rows)",
+      "name": "Phase 1.1 — Database Pagination Suite (10M Rows)",
       "item": [
         {
-          "name": "1. Naive Offset Pagination (GET)",
+          "name": "1. Naive Offset Pagination (GET Filtered)",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:3000/api/v1/db-pagination/naive/users?page=250000&limit=20",
+              "raw": "http://localhost:3000/api/v1/db-pagination/naive/users?page=250000&limit=20&status=ACTIVE&minAge=25&maxAge=40",
               "protocol": "http",
               "host": ["localhost"],
               "port": "3000",
               "path": ["api", "v1", "db-pagination", "naive", "users"],
               "query": [
                 { "key": "page", "value": "250000" },
-                { "key": "limit", "value": "20" }
+                { "key": "limit", "value": "20" },
+                { "key": "status", "value": "ACTIVE" },
+                { "key": "minAge", "value": "25" },
+                { "key": "maxAge", "value": "40" }
               ]
             }
           }
         },
         {
-          "name": "2. Optimized Keyset Cursor Pagination (GET)",
+          "name": "2. Optimized Keyset Cursor Pagination (GET Filtered)",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:3000/api/v1/db-pagination/optimized/users/keyset?cursor=5000000&limit=20",
+              "raw": "http://localhost:3000/api/v1/db-pagination/optimized/users/keyset?cursor=5000000&limit=20&status=ACTIVE&minAge=25&maxAge=40",
               "protocol": "http",
               "host": ["localhost"],
               "port": "3000",
               "path": ["api", "v1", "db-pagination", "optimized", "users", "keyset"],
               "query": [
                 { "key": "cursor", "value": "5000000" },
-                { "key": "limit", "value": "20" }
+                { "key": "limit", "value": "20" },
+                { "key": "status", "value": "ACTIVE" },
+                { "key": "minAge", "value": "25" },
+                { "key": "maxAge", "value": "40" }
               ]
             }
           }
         },
         {
-          "name": "3. Optimized Deferred Join Offset Pagination (GET)",
+          "name": "3. Optimized Deferred Join Offset Pagination (GET Filtered)",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:3000/api/v1/db-pagination/optimized/users/deferred-join?page=250000&limit=20",
+              "raw": "http://localhost:3000/api/v1/db-pagination/optimized/users/deferred-join?page=250000&limit=20&status=ACTIVE&minAge=25&maxAge=40",
               "protocol": "http",
               "host": ["localhost"],
               "port": "3000",
               "path": ["api", "v1", "db-pagination", "optimized", "users", "deferred-join"],
               "query": [
                 { "key": "page", "value": "250000" },
+                { "key": "limit", "value": "20" },
+                { "key": "status", "value": "ACTIVE" },
+                { "key": "minAge", "value": "25" },
+                { "key": "maxAge", "value": "40" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "4. Optimized Pre-computed Page Map Pagination (GET Filtered)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/db-pagination/optimized/users/page-map?page=250000&limit=20&status=ACTIVE&minAge=25&maxAge=40",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "db-pagination", "optimized", "users", "page-map"],
+              "query": [
+                { "key": "page", "value": "250000" },
+                { "key": "limit", "value": "20" },
+                { "key": "status", "value": "ACTIVE" },
+                { "key": "minAge", "value": "25" },
+                { "key": "maxAge", "value": "40" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "5. Refresh Pre-computed Page Map Table (POST)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/db-pagination/optimized/users/page-map/refresh?limit=20",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "db-pagination", "optimized", "users", "page-map", "refresh"],
+              "query": [
                 { "key": "limit", "value": "20" }
               ]
             }

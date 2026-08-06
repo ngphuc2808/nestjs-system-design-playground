@@ -25,6 +25,7 @@ export interface SystemModuleDoc {
     method: 'GET' | 'POST';
     samplePayload?: any;
     advantage: string;
+    additionalEndpoints?: { label: string; endpoint: string; method: 'GET' | 'POST' }[];
   };
   flowSteps: SystemModuleFlowStep[];
   benchmarkResult: {

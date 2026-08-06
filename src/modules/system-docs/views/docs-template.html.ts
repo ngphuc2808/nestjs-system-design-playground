@@ -202,18 +202,18 @@ export function renderDocsHtml(modules: SystemModuleDoc[]): string {
     
     .endpoint-badge {
       font-family: var(--font-code);
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 500;
       letter-spacing: 0.2px;
-      padding: 8px 14px;
+      padding: 10px 14px;
       background: #0d1117;
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 8px;
       color: #38bdf8;
       margin-bottom: 14px;
-      display: inline-block;
+      display: block;
       word-break: break-all;
-      line-height: 1.4;
+      line-height: 1.6;
     }
     .card-desc {
       font-size: 14px;
@@ -445,7 +445,16 @@ export function renderDocsHtml(modules: SystemModuleDoc[]): string {
       document.getElementById('naiveDrawback').innerText = '⚠️ Drawback: ' + currentModule.naiveStrategy.drawback;
 
       // Optimized Card
-      document.getElementById('optimizedEndpoint').innerText = currentModule.optimizedStrategy.method + ' ' + currentModule.optimizedStrategy.endpoint;
+      let optEndpointHtml = currentModule.optimizedStrategy.method + ' ' + currentModule.optimizedStrategy.endpoint;
+      if (currentModule.optimizedStrategy.additionalEndpoints && currentModule.optimizedStrategy.additionalEndpoints.length > 0) {
+        optEndpointHtml = currentModule.optimizedStrategy.additionalEndpoints.map(ep => \`
+          <div style="margin-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:6px;">
+            <div style="font-size:11px; color:#a5b4fc; font-weight:600; margin-bottom:2px;">\${ep.label}</div>
+            <div style="color:#38bdf8; font-weight:500;">\${ep.method} \${ep.endpoint}</div>
+          </div>
+        \`).join('');
+      }
+      document.getElementById('optimizedEndpoint').innerHTML = optEndpointHtml;
       document.getElementById('optimizedDesc').innerText = currentModule.optimizedStrategy.description;
       document.getElementById('optimizedAdvantage').innerText = '🚀 Advantage: ' + currentModule.optimizedStrategy.advantage;
 
