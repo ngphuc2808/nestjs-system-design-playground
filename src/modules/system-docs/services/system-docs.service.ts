@@ -45,16 +45,14 @@ export class SystemDocsService {
       overview: 'Kỹ thuật viết câu lệnh SQL Sargable để tận dụng B-Tree Index và Prepared Statement Plan Caching.',
       naiveStrategy: {
         description: 'Bọc cột trong hàm DATE(created_at) = $1 làm vô hiệu hóa B-Tree Index Range Scan.',
-        endpoint: '/api/v1/db-sargable/naive/search-date',
-        method: 'POST',
-        samplePayload: { date: '2026-08-01' },
+        endpoint: '/api/v1/db-sargable/naive/date-search?date=2026-08-01',
+        method: 'GET',
         drawback: 'Bắt buộc Postgres phải quét toàn bộ bảng (Seq Scan).',
       },
       optimizedStrategy: {
         description: 'Truy vấn Sargable created_at >= $1 AND created_at < $2 tận dụng B-Tree Index Range Scan.',
-        endpoint: '/api/v1/db-sargable/optimized/search-date',
-        method: 'POST',
-        samplePayload: { startDate: '2026-08-01', endDate: '2026-08-02' },
+        endpoint: '/api/v1/db-sargable/optimized/date-range?startDate=2026-08-01&endDate=2026-08-02',
+        method: 'GET',
         advantage: 'Chỉ quét các block dữ liệu trong dải Index Range Scan.',
       },
       flowSteps: [
