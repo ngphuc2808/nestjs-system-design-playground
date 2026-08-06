@@ -16,6 +16,7 @@ import { OutboxPatternModule } from './modules/outbox-pattern/outbox-pattern.mod
 import { MessagingComparisonModule } from './modules/messaging-comparison/messaging-comparison.module';
 import { TrafficEngineeringModule } from './modules/traffic-engineering/traffic-engineering.module';
 import { FileStreamingModule } from './modules/file-streaming/file-streaming.module';
+import { SystemDocsModule } from './modules/system-docs/system-docs.module';
 import { UserBenchmarkEntity } from './modules/db-pagination/entities/user-benchmark.entity';
 import { IndexingOrderEntity } from './modules/db-indexing/entities/indexing-order.entity';
 import { AccountBalanceEntity } from './modules/db-ledger/entities/account-balance.entity';
@@ -58,6 +59,7 @@ import { OutboxEventEntity } from './modules/outbox-pattern/entities/outbox-even
     MessagingComparisonModule,
     TrafficEngineeringModule,
     FileStreamingModule,
+    SystemDocsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

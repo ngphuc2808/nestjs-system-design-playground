@@ -1,0 +1,55 @@
+{
+  "info": {
+    "_postman_id": "system-docs-module-015-collection",
+    "name": "Module 015: Interactive System Architecture & Documentation Portal",
+    "description": "Postman collection to test the Interactive System Documentation Portal & REST metadata APIs.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Open Web Documentation Portal (HTML UI)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/docs",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["docs"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2. Get All System Modules Metadata (JSON)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/v1/system-docs/modules",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "system-docs", "modules"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "3. Get Module Metadata by ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/v1/system-docs/modules/db-pagination-benchmark",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "system-docs", "modules", "db-pagination-benchmark"]
+        }
+      },
+      "response": []
+    }
+  ]
+}
