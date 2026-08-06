@@ -1,0 +1,500 @@
+{
+  "info": {
+    "_postman_id": "nestjs-system-design-playground-master-collection",
+    "name": "⚡ NestJS System Design & High-Concurrency Playground (Master Collection)",
+    "description": "Master Postman Collection covering all 12 System Design & High-Concurrency modules + System Documentation Portal APIs.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Phase 0 — System Docs & Progress APIs",
+      "item": [
+        {
+          "name": "1. Open Web Documentation Portal (HTML)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/docs",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["docs"]
+            }
+          }
+        },
+        {
+          "name": "2. Get All System Modules Metadata (JSON)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/system-docs/modules",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "system-docs", "modules"]
+            }
+          }
+        },
+        {
+          "name": "3. Get Learning Progress Summary",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/learning-progress/summary",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "learning-progress", "summary"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Phase 1.1 — Database Pagination Benchmark (10M Rows)",
+      "item": [
+        {
+          "name": "1. Naïve Offset Pagination (GET)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/db-pagination/naive/users?page=250000&limit=20",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "db-pagination", "naive", "users"],
+              "query": [
+                { "key": "page", "value": "250000" },
+                { "key": "limit", "value": "20" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "2. Optimized Keyset Cursor Pagination (GET)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/db-pagination/optimized/users/keyset?cursor=5000000&limit=20",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "db-pagination", "optimized", "users", "keyset"],
+              "query": [
+                { "key": "cursor", "value": "5000000" },
+                { "key": "limit", "value": "20" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "3. Optimized Deferred Join Offset Pagination (GET)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/db-pagination/optimized/users/deferred?page=250000&limit=20",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "db-pagination", "optimized", "users", "deferred"],
+              "query": [
+                { "key": "page", "value": "250000" },
+                { "key": "limit", "value": "20" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Phase 1.2 — Sargable Queries & Parameter Binding",
+      "item": [
+        {
+          "name": "1. Non-Sargable Date Search (POST)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"date\": \"2026-08-01\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/v1/db-sargable/naive/search-date",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "db-sargable", "naive", "search-date"]
+            }
+          }
+        },
+        {
+          "name": "2. Sargable Range Date Search (POST)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"startDate\": \"2026-08-01\",\n  \"endDate\": \"2026-08-02\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/v1/db-sargable/optimized/search-date",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "db-sargable", "optimized", "search-date"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Phase 1.3 — Advanced Indexing & EXPLAIN (10M Orders)",
+      "item": [
+        {
+          "name": "1. Naïve JSONB String Search (POST)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"category\": \"ELECTRONICS\"\n}" },
+            "url": {
+              "raw": "http://localhost:3000/api/v1/db-indexing/naive/leftmost",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "db-indexing", "naive", "leftmost"]
+            }
+          }
+        },
+        {
+          "name": "2. Optimized GIN JSONB Containment Search (GET)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/db-indexing/optimized/gin-jsonb?category=ELECTRONICS",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "db-indexing", "optimized", "gin-jsonb"],
+              "query": [{ "key": "category", "value": "ELECTRONICS" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Phase 1.4 — Window Functions & MViews",
+      "item": [
+        {
+          "name": "1. Naïve In-Memory V8 Aggregation (GET)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/db-window-mview/naive/analytics",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "db-window-mview", "naive", "analytics"]
+            }
+          }
+        },
+        {
+          "name": "2. Optimized SQL Window & Concurrent MView (GET)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/db-window-mview/optimized/analytics",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "db-window-mview", "optimized", "analytics"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Phase 1.5 — Immutable SHA-256 Ledger",
+      "item": [
+        {
+          "name": "1. Naïve Balance Update (POST)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"accountId\": \"ACC_1001\",\n  \"amount\": 100\n}" },
+            "url": {
+              "raw": "http://localhost:3000/api/v1/db-ledger/naive/transfer",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "db-ledger", "naive", "transfer"]
+            }
+          }
+        },
+        {
+          "name": "2. Optimized Cryptographic SHA-256 Ledger Entry (POST)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"fromAccountId\": \"ACC_1001\",\n  \"toAccountId\": \"ACC_1002\",\n  \"amount\": 250\n}" },
+            "url": {
+              "raw": "http://localhost:3000/api/v1/db-ledger/optimized/transfer",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "db-ledger", "optimized", "transfer"]
+            }
+          }
+        },
+        {
+          "name": "3. Verify Cryptographic SHA-256 Hash Chain (GET)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/db-ledger/optimized/verify",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "db-ledger", "optimized", "verify"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Phase 2.1 — Concurrency Control & Advisory Locks",
+      "item": [
+        {
+          "name": "1. Naïve Unlocked Stock Deduction (POST)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"productId\": 1,\n  \"quantity\": 1\n}" },
+            "url": {
+              "raw": "http://localhost:3000/api/v1/concurrency-locking/naive/deduct",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "concurrency-locking", "naive", "deduct"]
+            }
+          }
+        },
+        {
+          "name": "2. Optimized Optimistic OCC Versioning Deduction (POST)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"productId\": 1,\n  \"quantity\": 1\n}" },
+            "url": {
+              "raw": "http://localhost:3000/api/v1/concurrency-locking/optimized/deduct/optimistic",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "concurrency-locking", "optimized", "deduct", "optimistic"]
+            }
+          }
+        },
+        {
+          "name": "3. Optimized Postgres Advisory Lock Deduction (POST)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"productId\": 1,\n  \"quantity\": 1\n}" },
+            "url": {
+              "raw": "http://localhost:3000/api/v1/concurrency-locking/optimized/deduct/advisory",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "concurrency-locking", "optimized", "deduct", "advisory"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Phase 2.2 — Redis Lua Rate Limit & Flash Sale",
+      "item": [
+        {
+          "name": "1. Optimized Redis Lua Flash Sale (POST)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"productId\": \"FLASH_IPHONE_16\",\n  \"quantity\": 1\n}" },
+            "url": {
+              "raw": "http://localhost:3000/api/v1/redis-lua/optimized/flash-sale",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "redis-lua", "optimized", "flash-sale"]
+            }
+          }
+        },
+        {
+          "name": "2. Optimized Redis Lua Sliding Window Rate Limit (GET)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/redis-lua/optimized/rate-limit?key=IP_192_168_1_1&limit=5&windowSeconds=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "redis-lua", "optimized", "rate-limit"],
+              "query": [
+                { "key": "key", "value": "IP_192_168_1_1" },
+                { "key": "limit", "value": "5" },
+                { "key": "windowSeconds", "value": "10" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Phase 2.3 — Idempotency Key & DB Connection Pool",
+      "item": [
+        {
+          "name": "1. Optimized Idempotency Key Payment Filter (POST)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "x-idempotency-key", "value": "PAY_KEY_9981" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"accountId\": \"ACC_1001\",\n  \"amount\": 500\n}" },
+            "url": {
+              "raw": "http://localhost:3000/api/v1/idempotency-pool/optimized/payment",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "idempotency-pool", "optimized", "payment"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Phase 3.1 — Kafka Partitions & Consumer Groups",
+      "item": [
+        {
+          "name": "1. Optimized Keyed Partition Producer (POST)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"orderId\": \"ORD_9910\",\n  \"eventType\": \"ORDER_CREATED\",\n  \"payload\": {\n    \"amount\": 150\n  }\n}" },
+            "url": {
+              "raw": "http://localhost:3000/api/v1/kafka-core/optimized/produce",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "kafka-core", "optimized", "produce"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Phase 3.2 — Transactional Outbox Pattern",
+      "item": [
+        {
+          "name": "1. Optimized Atomic Order + Outbox Event (POST)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"customerId\": \"CUST_88\",\n  \"totalAmount\": 499.99,\n  \"items\": [\"iPhone 16 Pro\"]\n}" },
+            "url": {
+              "raw": "http://localhost:3000/api/v1/outbox-pattern/optimized/create-order",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "outbox-pattern", "optimized", "create-order"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Phase 3.3 — Messaging Head-to-Head",
+      "item": [
+        {
+          "name": "1. Benchmark Kafka vs RabbitMQ vs BullMQ (POST)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"totalMessages\": 1000,\n  \"targetBroker\": \"KAFKA\"\n}" },
+            "url": {
+              "raw": "http://localhost:3000/api/v1/messaging-comparison/optimized/benchmark",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "messaging-comparison", "optimized", "benchmark"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Phase 4.1 — Dynamic Feature Flags & Shadow Traffic",
+      "item": [
+        {
+          "name": "1. Evaluate Dynamic Redis Flag (POST)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"flagName\": \"NEW_CHECKOUT_V2\",\n  \"userId\": \"USER_5521\"\n}" },
+            "url": {
+              "raw": "http://localhost:3000/api/v1/traffic-engineering/optimized/evaluate",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "traffic-engineering", "optimized", "evaluate"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Phase 4.2 — Stream File Processing (< 30MB RAM)",
+      "item": [
+        {
+          "name": "1. Stream Upload Large CSV (POST)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"filepath\": \"sample_large_dataset.csv\",\n  \"batchSize\": 1000\n}" },
+            "url": {
+              "raw": "http://localhost:3000/api/v1/file-streaming/optimized/stream-upload",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "file-streaming", "optimized", "stream-upload"]
+            }
+          }
+        },
+        {
+          "name": "2. Export Chunked CSV Stream (GET)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/file-streaming/optimized/export-csv",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "file-streaming", "optimized", "export-csv"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
