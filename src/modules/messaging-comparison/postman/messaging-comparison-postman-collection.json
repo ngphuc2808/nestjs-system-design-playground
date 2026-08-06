@@ -1,0 +1,73 @@
+{
+  "info": {
+    "_postman_id": "messaging-comparison-module-3.3-collection",
+    "name": "Module 3.3: Messaging Head-to-Head Comparison Benchmark",
+    "description": "Postman collection to run comparative benchmarks across Kafka, RabbitMQ, and BullMQ.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Naive Serial Message Publish",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"queueOrTopic\": \"benchmark-queue\",\n  \"message\": \"Test payload data\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/v1/messaging-comparison/naive/publish",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "messaging-comparison", "naive", "publish"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2. Run Head-to-Head Benchmark (1,000 Messages)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"messageCount\": 1000,\n  \"concurrency\": 10\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/v1/messaging-comparison/optimized/benchmark",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "messaging-comparison", "optimized", "benchmark"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "3. Get Architectural Comparison Matrix & Recommendations",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/v1/messaging-comparison/optimized/comparison-matrix",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "messaging-comparison", "optimized", "comparison-matrix"]
+        }
+      },
+      "response": []
+    }
+  ]
+}

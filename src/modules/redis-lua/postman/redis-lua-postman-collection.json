@@ -1,0 +1,122 @@
+{
+  "info": {
+    "_postman_id": "redis-lua-module-2.2-collection",
+    "name": "Module 2.2: High-Throughput Rate Limiting & Flash Sale (Redis Lua)",
+    "description": "Postman collection to test atomic Sliding Window Log Rate Limiter and Flash Sale inventory deduction with Redis Lua Scripts.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Seed Redis Flash Sale Stock (1,000 Units)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"productId\": \"FLASH_IPHONE_16\",\n  \"initialStock\": 1000\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/v1/redis-lua/seed",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "redis-lua", "seed"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2. Naive Rate Limiter (Non-atomic network calls)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/v1/redis-lua/naive/rate-limit?identifier=user_101&limit=10&windowSeconds=60",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "redis-lua", "naive", "rate-limit"],
+          "query": [
+            { "key": "identifier", "value": "user_101" },
+            { "key": "limit", "value": "10" },
+            { "key": "windowSeconds", "value": "60" }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "3. Optimized Atomic Rate Limiter (Redis Lua Sliding Window)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/v1/redis-lua/optimized/rate-limit?identifier=user_101&limit=10&windowSeconds=60",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "redis-lua", "optimized", "rate-limit"],
+          "query": [
+            { "key": "identifier", "value": "user_101" },
+            { "key": "limit", "value": "10" },
+            { "key": "windowSeconds", "value": "60" }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "4. Naive Flash Sale Deduction (Non-atomic GET then DECRBY)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"productId\": \"FLASH_IPHONE_16\",\n  \"quantity\": 1\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/v1/redis-lua/naive/flash-sale",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "redis-lua", "naive", "flash-sale"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "5. Optimized Flash Sale Deduction (Atomic Redis Lua Script)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"productId\": \"FLASH_IPHONE_16\",\n  \"quantity\": 1\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/v1/redis-lua/optimized/flash-sale",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "redis-lua", "optimized", "flash-sale"]
+        }
+      },
+      "response": []
+    }
+  ]
+}

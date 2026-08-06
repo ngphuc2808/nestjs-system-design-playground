@@ -1,0 +1,74 @@
+{
+  "info": {
+    "_postman_id": "db-sargable-module-1.2-collection",
+    "name": "Module 1.2: Sargable Queries & Parameter Binding",
+    "description": "Postman collection to test Sargable vs Non-Sargable queries and Prepared Statement parameter binding.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Non-Sargable DATE() Function Wrapping (Seq Scan)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/v1/db-sargable/naive/date-search?targetDate=2026-08-05",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "db-sargable", "naive", "date-search"],
+          "query": [{ "key": "targetDate", "value": "2026-08-05" }]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2. Sargable Date Range Condition (B-Tree Index Scan)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/v1/db-sargable/optimized/date-range?targetDate=2026-08-05",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "db-sargable", "optimized", "date-range"],
+          "query": [{ "key": "targetDate", "value": "2026-08-05" }]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "3. Naive Raw String Interpolation (No Plan Cache)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/v1/db-sargable/naive/raw-string?username=user_100",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "db-sargable", "naive", "raw-string"],
+          "query": [{ "key": "username", "value": "user_100" }]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "4. Optimized Parameter Binding ($1) (Plan Cache Hit)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/v1/db-sargable/optimized/parameter-binding?username=user_100",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "db-sargable", "optimized", "parameter-binding"],
+          "query": [{ "key": "username", "value": "user_100" }]
+        }
+      },
+      "response": []
+    }
+  ]
+}

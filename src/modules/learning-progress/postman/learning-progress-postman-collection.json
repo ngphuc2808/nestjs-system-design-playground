@@ -1,0 +1,49 @@
+{
+  "info": {
+    "_postman_id": "learning-progress-module-0-collection",
+    "name": "Module 0: Learning Progress & Dashboard",
+    "description": "Postman Collection to test Learning Progress summary and topic updates.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Learning Progress Summary",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/v1/learning-progress/summary",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "learning-progress", "summary"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Topic Benchmark & Status",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"COMPLETED\",\n  \"keyTakeaways\": [\"Keyset pagination eliminates O(N) offset scan overhead\"],\n  \"naiveLatencyMs\": 250,\n  \"optimizedLatencyMs\": 8,\n  \"naiveRps\": 45,\n  \"optimizedRps\": 1450\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/v1/learning-progress/db-pagination-benchmark",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "learning-progress", "db-pagination-benchmark"]
+        }
+      },
+      "response": []
+    }
+  ]
+}

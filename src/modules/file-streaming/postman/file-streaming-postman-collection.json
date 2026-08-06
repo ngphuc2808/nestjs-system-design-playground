@@ -1,0 +1,97 @@
+{
+  "info": {
+    "_postman_id": "file-streaming-module-4.2-collection",
+    "name": "Module 4.2: High-Performance Large File Streaming",
+    "description": "Postman collection to test full-file RAM buffering vs line-by-line stream backpressure and chunked CSV exports.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Generate Sample 50,000-Row Large CSV File",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"rowCount\": 50000,\n  \"filename\": \"sample_large_dataset.csv\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/v1/file-streaming/generate-sample-csv",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "file-streaming", "generate-sample-csv"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2. Naive Full-File Memory Buffer Processing (High RAM Bloat)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"filepath\": \"sample_large_dataset.csv\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/v1/file-streaming/naive/upload",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "file-streaming", "naive", "upload"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "3. Optimized Stream Backpressure Processing (< 30 MB RAM)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"filepath\": \"sample_large_dataset.csv\",\n  \"batchSize\": 1000\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/v1/file-streaming/optimized/stream-upload",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "file-streaming", "optimized", "stream-upload"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "4. Download Chunked CSV Stream (Transfer-Encoding: chunked)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/v1/file-streaming/optimized/export-csv",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "file-streaming", "optimized", "export-csv"]
+        }
+      },
+      "response": []
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+# >>> ai-framework protected-paths >>>
+# ai-framework: paths listed in .ai/core/security-boundaries.md
+.env
+.env.*
+**/*.pem
+**/*.key
+**/secrets/**
+**/credentials*
+# <<< ai-framework protected-paths <<<

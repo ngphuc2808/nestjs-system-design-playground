@@ -1,0 +1,73 @@
+{
+  "info": {
+    "_postman_id": "db-window-mview-module-1.4-collection",
+    "name": "Module 1.4: Window Functions & Materialized Views",
+    "description": "Postman collection to test SQL Window Functions, Materialized Views, and Concurrent Refreshes.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Naive In-Memory JS Array Analytics (High Heap RAM)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/v1/db-window-mview/naive/analytics?limit=50",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "db-window-mview", "naive", "analytics"],
+          "query": [{ "key": "limit", "value": "50" }]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2. Optimized SQL Window Functions (Zero Heap Overhead)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/v1/db-window-mview/optimized/analytics/window?limit=50",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "db-window-mview", "optimized", "analytics", "window"],
+          "query": [{ "key": "limit", "value": "50" }]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "3. Optimized Materialized View Instant Read",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/v1/db-window-mview/optimized/analytics/mview?limit=50",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "db-window-mview", "optimized", "analytics", "mview"],
+          "query": [{ "key": "limit", "value": "50" }]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "4. Refresh Materialized View CONCURRENTLY",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/v1/db-window-mview/optimized/mview/refresh",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "db-window-mview", "optimized", "mview", "refresh"]
+        }
+      },
+      "response": []
+    }
+  ]
+}

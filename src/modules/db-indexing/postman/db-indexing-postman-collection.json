@@ -1,0 +1,116 @@
+{
+  "info": {
+    "_postman_id": "db-indexing-module-1.3-collection",
+    "name": "Module 1.3: Advanced Indexing & EXPLAIN ANALYZE",
+    "description": "Postman collection to test execution plans: Composite Leftmost Prefix Rule, Partial Indexes, and GIN JSONB containment.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Seed Benchmark Orders (50,000 Rows with JSONB)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"totalRows\": 50000,\n  \"batchSize\": 5000\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/v1/db-indexing/seed",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "db-indexing", "seed"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2. Naive Composite (Violates Leftmost Prefix Rule -> Seq Scan)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/v1/db-indexing/naive/leftmost?createdAfter=2026-08-01",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "db-indexing", "naive", "leftmost"],
+          "query": [{ "key": "createdAfter", "value": "2026-08-01" }]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "3. Optimized Composite (Satisfies Leftmost Prefix Rule -> Index Scan)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/v1/db-indexing/optimized/leftmost?status=PENDING&createdAfter=2026-08-01",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "db-indexing", "optimized", "leftmost"],
+          "query": [
+            { "key": "status", "value": "PENDING" },
+            { "key": "createdAfter", "value": "2026-08-01" }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "4. Naive JSONB Search (metadata::text LIKE -> Seq Scan)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/v1/db-indexing/naive/gin-jsonb?category=ELECTRONICS",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "db-indexing", "naive", "gin-jsonb"],
+          "query": [{ "key": "category", "value": "ELECTRONICS" }]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "5. Optimized JSONB Search (metadata @> jsonb -> GIN Index Seek)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/v1/db-indexing/optimized/gin-jsonb?category=ELECTRONICS",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "db-indexing", "optimized", "gin-jsonb"],
+          "query": [{ "key": "category", "value": "ELECTRONICS" }]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "6. Optimized Partial Index (WHERE status = 'PENDING')",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/v1/db-indexing/optimized/partial",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "db-indexing", "optimized", "partial"]
+        }
+      },
+      "response": []
+    }
+  ]
+}

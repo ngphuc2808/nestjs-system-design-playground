@@ -1,0 +1,112 @@
+{
+  "entries": [
+    {
+      "path": "AGENTS.md",
+      "hash": "sha256:a8169642e5b2245a3b64c82c8711698b1ee85908791f738062b5ca4b2e852839"
+    },
+    {
+      "path": "GEMINI.md",
+      "hash": "sha256:49c55e2d5be2cd26927c645fbdacc50412651a64e31c98b421b23858f824326a"
+    },
+    {
+      "path": ".agents/rules/00-entry.md",
+      "hash": "sha256:32b98e4c18423ab10d6a8907f419ff814acf6972f55476b33df322acf1a381f8"
+    },
+    {
+      "path": ".gitignore",
+      "hash": "sha256:8a043cc7392d1042eb5578589551782b9d395548dcbeadabc989d54156cb4f49"
+    },
+    {
+      "path": ".aiexclude",
+      "hash": "sha256:8709a915f3fdb9cc12e476bb19af4656ec4bb86ccc53bf058bb40a2f5fd86db0"
+    },
+    {
+      "path": ".agents/skills/reverse-search/SKILL.md",
+      "hash": "sha256:7b6a01ee8ef4abb7169b040bc9593cb3c66ec1063de298b5b83051c938a99542"
+    },
+    {
+      "path": ".agents/workflows/reverse-search.md",
+      "hash": "sha256:4600907dee4d48788972af4b2f38460bda3fb4b2869f6cae978d63e147d8bb80"
+    },
+    {
+      "path": ".agents/skills/core-refresh/SKILL.md",
+      "hash": "sha256:2f12c1584557975e2623a749e2d3318b25ee06bdaf3b756ab367790798cb8036"
+    },
+    {
+      "path": ".agents/workflows/core-refresh.md",
+      "hash": "sha256:0772fdc6dec15a5625e4d0b248601a8c7397a74587d5d729bb1fbf27a4832b29"
+    },
+    {
+      "path": ".agents/skills/elicitation/SKILL.md",
+      "hash": "sha256:65eca821ad575ba19ac526fc52ab486da80511f8e69029cdda3e5a8f2ceebda9"
+    },
+    {
+      "path": ".agents/workflows/elicitation.md",
+      "hash": "sha256:0d6f5d0923f0e704b019741bc941373e11173f92f1370084def6ab596e6a1d4f"
+    },
+    {
+      "path": ".agents/skills/adversarial-review/SKILL.md",
+      "hash": "sha256:2dc152792843a1be7a8c7794c963c48b358623aafbc551c1d684d19984187653"
+    },
+    {
+      "path": ".agents/workflows/adversarial-review.md",
+      "hash": "sha256:fac43489dc005a1bee21e07038baf645afe5b7d003f6abfb2924a96afb150a3b"
+    },
+    {
+      "path": ".agents/skills/persona-debate/SKILL.md",
+      "hash": "sha256:864640651ab59b117c32a21f799c48d42dab7bb430b60c7e64326d501c7ae648"
+    },
+    {
+      "path": ".agents/workflows/persona-debate.md",
+      "hash": "sha256:abb69cb206ff29ebdd541c941db69b76c8d5b46f28fd12f32ab47e6c81b71e27"
+    },
+    {
+      "path": ".agents/skills/constitution-drafting/SKILL.md",
+      "hash": "sha256:4ca1fe7c3fa61f8f80446393de95ec181e6709ad1bcc107ad19bfc421479dc19"
+    },
+    {
+      "path": ".agents/workflows/constitution-drafting.md",
+      "hash": "sha256:b08f2a9221fa855f13ba59117f1328983811c419bd33ab84e97f87325bf2d97a"
+    },
+    {
+      "path": ".agents/skills/add-feature/SKILL.md",
+      "hash": "sha256:2f9f1af5f91fb8c13aacc9d7c628cc43bfbd783797785f233af4cfcee2e85117"
+    },
+    {
+      "path": ".agents/workflows/add-feature.md",
+      "hash": "sha256:074fad7efc5feb5dc73b047f52c3fc19796c08bc76890922c8edb925bdbaeac8"
+    },
+    {
+      "path": ".agents/skills/plan-drafting/SKILL.md",
+      "hash": "sha256:590bf4947c478476845733c1e9bd15fa413b37b88142cc10556d4984528371bb"
+    },
+    {
+      "path": ".agents/workflows/plan-drafting.md",
+      "hash": "sha256:58df09961b03f6e29514f9c17f073ddd8464e606c8b23084865b6b421ab49e1a"
+    },
+    {
+      "path": ".agents/skills/tasks-drafting/SKILL.md",
+      "hash": "sha256:689adb0bec2f60d3b29801cc4692495de91548fe58dca14259b788970f94a322"
+    },
+    {
+      "path": ".agents/workflows/tasks-drafting.md",
+      "hash": "sha256:1df90dfce31aa2ee45bd1c47bc1ce4090b92f3c1f0fc7d1e83f801f27d4da8c7"
+    },
+    {
+      "path": ".agents/skills/implement/SKILL.md",
+      "hash": "sha256:c9b182696c05a69f4d5cf7cd06c6d0a144c079a2e61d57647982d399a97cade4"
+    },
+    {
+      "path": ".agents/workflows/implement.md",
+      "hash": "sha256:68379e8e88b186ece6e06f4b9c8df3a51de2040d3711ec1aef98f991f9fda272"
+    },
+    {
+      "path": ".agents/skills/analyze/SKILL.md",
+      "hash": "sha256:889265aa7fcb1f5e17a9080a9a824b00af409309a2d2ffdb7c554a30f78b26eb"
+    },
+    {
+      "path": ".agents/workflows/analyze.md",
+      "hash": "sha256:85f96009754362db47a6b8185646aa897a1467928832ca717ff1f57f3c804d97"
+    }
+  ]
+}

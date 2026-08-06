@@ -1,0 +1,97 @@
+{
+  "info": {
+    "_postman_id": "traffic-engineering-module-4.1-collection",
+    "name": "Module 4.1: Dynamic Feature Flags & Shadow Traffic",
+    "description": "Postman collection to test dynamic feature flags, canary rollouts, and background shadow traffic mirroring.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Configure Feature Flag (Set Rollout to 50%)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"flagName\": \"NEW_CHECKOUT_V2\",\n  \"enabled\": true,\n  \"rolloutPercentage\": 50\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/v1/traffic-engineering/flags/toggle",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "traffic-engineering", "flags", "toggle"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2. Naive Hardcoded Feature Evaluation",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"flagName\": \"NEW_CHECKOUT_V2\",\n  \"userId\": \"USER_5521\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/v1/traffic-engineering/naive/evaluate",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "traffic-engineering", "naive", "evaluate"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "3. Optimized Dynamic Feature Evaluation (Canary + Shadow Traffic)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"flagName\": \"NEW_CHECKOUT_V2\",\n  \"userId\": \"USER_5521\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/v1/traffic-engineering/optimized/evaluate",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "traffic-engineering", "optimized", "evaluate"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "4. Get Shadow Traffic Mirror Status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/v1/traffic-engineering/shadow-traffic/status",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "traffic-engineering", "shadow-traffic", "status"]
+        }
+      },
+      "response": []
+    }
+  ]
+}

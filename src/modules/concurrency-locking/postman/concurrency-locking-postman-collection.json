@@ -1,0 +1,130 @@
+{
+  "info": {
+    "_postman_id": "concurrency-locking-module-2.1-collection",
+    "name": "Module 2.1: Concurrency Control & Locking Strategies",
+    "description": "Postman collection to benchmark race conditions: Naive Read-Modify-Write vs OCC Version Column vs Pessimistic FOR UPDATE vs Advisory Locks.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Reset Inventory Stock to 100 Units",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"productId\": 1,\n  \"initialStock\": 100\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/v1/concurrency-locking/seed",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "concurrency-locking", "seed"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2. Naive Stock Deduction (High Overbooking Risk under Concurrency)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"productId\": 1,\n  \"quantity\": 1\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/v1/concurrency-locking/naive/deduct",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "concurrency-locking", "naive", "deduct"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "3. Optimized Stock Deduction (Optimistic OCC Version Column)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"productId\": 1,\n  \"quantity\": 1\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/v1/concurrency-locking/optimized/deduct/optimistic",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "concurrency-locking", "optimized", "deduct", "optimistic"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "4. Optimized Stock Deduction (Pessimistic FOR UPDATE Row Lock)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"productId\": 1,\n  \"quantity\": 1\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/v1/concurrency-locking/optimized/deduct/pessimistic",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "concurrency-locking", "optimized", "deduct", "pessimistic"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "5. Optimized Stock Deduction (PostgreSQL Advisory Lock)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"productId\": 1,\n  \"quantity\": 1\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/v1/concurrency-locking/optimized/deduct/advisory",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "concurrency-locking", "optimized", "deduct", "advisory"]
+        }
+      },
+      "response": []
+    }
+  ]
+}

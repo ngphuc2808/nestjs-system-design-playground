@@ -1,0 +1,9 @@
+config_schema_version: 2
+agent_tools:
+  - antigravity
+rigor:
+  default: strict
+  overrides: []
+models:
+  default: auto
+  overrides: []

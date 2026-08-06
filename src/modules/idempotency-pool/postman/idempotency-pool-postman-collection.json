@@ -1,0 +1,109 @@
+{
+  "info": {
+    "_postman_id": "idempotency-pool-module-2.3-collection",
+    "name": "Module 2.3: Idempotency Key & Connection Pool Optimization",
+    "description": "Postman collection to test Idempotency Key header validation, Redis atomic locking, 24h response caching, and connection pool metrics.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Naive Payment Charge (Double Charging on Retry)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "x-idempotency-key",
+            "value": "KEY_NAIVE_9901"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": 199.99,\n  \"currency\": \"USD\",\n  \"customerId\": \"CUST_8841\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/v1/idempotency-pool/naive/payment",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "idempotency-pool", "naive", "payment"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2. Optimized Payment Charge (Initial Execution - Cache MISS)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "x-idempotency-key",
+            "value": "KEY_OPT_9902"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": 199.99,\n  \"currency\": \"USD\",\n  \"customerId\": \"CUST_8841\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/v1/idempotency-pool/optimized/payment",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "idempotency-pool", "optimized", "payment"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "3. Optimized Payment Charge Retry (Instant Cache HIT - Header x-cache: HIT)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "x-idempotency-key",
+            "value": "KEY_OPT_9902"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": 199.99,\n  \"currency\": \"USD\",\n  \"customerId\": \"CUST_8841\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/v1/idempotency-pool/optimized/payment",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "idempotency-pool", "optimized", "payment"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "4. Get Database Connection Pool Health Status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/v1/idempotency-pool/optimized/pool-status",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "idempotency-pool", "optimized", "pool-status"]
+        }
+      },
+      "response": []
+    }
+  ]
+}

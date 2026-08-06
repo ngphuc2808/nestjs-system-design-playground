@@ -1,0 +1,73 @@
+{
+  "info": {
+    "_postman_id": "kafka-core-module-3.1-collection",
+    "name": "Module 3.1: Kafka Partitioning & Consumer Groups",
+    "description": "Postman collection to test Kafka unkeyed random round-robin vs key-based partition routing and consumer status.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Naive Unkeyed Event Produce (key=null -> Random Round-Robin)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"orderId\": \"ORD_9901\",\n  \"eventType\": \"ORDER_CREATED\",\n  \"amount\": 299.99\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/v1/kafka-core/naive/produce",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "kafka-core", "naive", "produce"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2. Optimized Key-Based Event Produce (key=orderId -> Partition Affinity)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"orderId\": \"ORD_9901\",\n  \"eventType\": \"ORDER_PAID\",\n  \"amount\": 299.99\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/v1/kafka-core/optimized/produce",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "kafka-core", "optimized", "produce"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "3. Get Consumer Group & Manual Offset Status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/v1/kafka-core/optimized/consumer-status",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "kafka-core", "optimized", "consumer-status"]
+        }
+      },
+      "response": []
+    }
+  ]
+}

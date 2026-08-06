@@ -1,0 +1,112 @@
+{
+  "info": {
+    "_postman_id": "outbox-pattern-module-3.2-collection",
+    "name": "Module 3.2: Transactional Outbox Pattern & CDC Poller",
+    "description": "Postman collection to test unsafe Dual-Write vs atomic Transactional Outbox pattern and CDC Relay poller.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Naive Unsafe Dual-Write (Success path)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": 349.50,\n  \"customerId\": \"CUST_7712\",\n  \"simulateBrokerFailure\": false\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/v1/outbox-pattern/naive/create-order",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "outbox-pattern", "naive", "create-order"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2. Naive Dual-Write Failure (Simulated Broker Network Failure -> Orphan DB state)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": 349.50,\n  \"customerId\": \"CUST_7712\",\n  \"simulateBrokerFailure\": true\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/v1/outbox-pattern/naive/create-order",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "outbox-pattern", "naive", "create-order"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "3. Optimized Atomic Transactional Outbox (Order + Outbox Event in 1 Transaction)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": 349.50,\n  \"customerId\": \"CUST_7712\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/v1/outbox-pattern/optimized/create-order",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "outbox-pattern", "optimized", "create-order"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "4. Get Pending/Processed Outbox Events",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/v1/outbox-pattern/optimized/outbox-events",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "outbox-pattern", "optimized", "outbox-events"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "5. Trigger CDC Outbox Relay Poller (FOR UPDATE SKIP LOCKED)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/v1/outbox-pattern/optimized/relay/trigger",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "outbox-pattern", "optimized", "relay", "trigger"]
+        }
+      },
+      "response": []
+    }
+  ]
+}
