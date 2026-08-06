@@ -1,98 +1,116 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# ⚡ NestJS System Design & High-Concurrency Playground
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+> A production-grade NestJS playground demonstrating real-world high-concurrency techniques, database optimizations, event-driven messaging, traffic engineering, and streaming performance comparisons.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+[![NestJS](https://img.shields.io/badge/NestJS-v11.0.1-red.svg)](https://nestjs.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-v16.0-blue.svg)](https://www.postgresql.org/)
+[![Redis](https://img.shields.io/badge/Redis-v7.0-red.svg)](https://redis.io/)
+[![Apache Kafka](https://img.shields.io/badge/Kafka-KRaft-black.svg)](https://kafka.apache.org/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-## Description
+---
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 📌 Architecture & Design Principles
 
-## Project setup
+Every module in this repository follows a strict **Naïve vs. Optimized** comparison pattern:
+- **`naive/`**: Monolithic, un-indexed, blocking, or high-memory consumption baseline code path.
+- **`optimized/`**: High-performance, index-seeking, atomic, non-blocking, or stream-backed optimized code path.
 
+---
+
+## 🗺️ Complete Learning Roadmap (12/12 Modules Completed)
+
+| Phase | Module Code | Technical Topic | Naïve Approach | Optimized Approach | Status |
+|---|---|---|---|---|---|
+| **Phase 0** | `infra-setup` | Infrastructure Setup | Baseline Docker setup | PostgreSQL 16 + Redis 7 + Kafka KRaft + RabbitMQ | ✅ Done |
+| **Phase 0** | `module-0` | Learning Progress API | Hardcoded tracking | SOLID-compliant progress & benchmark summary API | ✅ Done |
+| **Phase 1** | `module-1.1` | Pagination Benchmark (10M Rows) | Offset `O(N)` Seq Scan (1,418 ms) | Keyset Cursor `O(1)` Index Seek (**3.1 ms** - 450x faster) | ✅ Done |
+| **Phase 1** | `module-1.2` | Sargable Queries & Plan Caching | Non-sargable `DATE()` wrapper | Sargable Index Range Scan + Prepared Statements | ✅ Done |
+| **Phase 1** | `module-1.3` | Advanced Indexing & EXPLAIN (10M Rows) | Full table Seq Scan | B-Tree Leftmost Prefix, Partial Index, GIN JSONB (**0.1 ms**) | ✅ Done |
+| **Phase 1** | `module-1.4` | Window Functions & MViews | In-memory V8 row aggregation | SQL `ROW_NUMBER()` & Concurrent Materialized Views | ✅ Done |
+| **Phase 1** | `module-1.5` | Immutable Ledger Pattern | Mutable `UPDATE balance` | Append-only Cryptographic SHA-256 Hash Chaining | ✅ Done |
+| **Phase 2** | `module-2.1` | Concurrency Control & Locking | Unlocked race conditions | Optimistic OCC Versioning vs `FOR UPDATE` vs Advisory Locks | ✅ Done |
+| **Phase 2** | `module-2.2` | Redis Lua Rate Limit & Flash Sale | Non-atomic check-then-set | Atomic Single-Threaded Redis Lua Scripts (25,000 RPS) | ✅ Done |
+| **Phase 2** | `module-2.3` | Idempotency Key & DB Pool | Double-charging risk | Header `x-idempotency-key` Redis SET NX + Pool Metrics | ✅ Done |
+| **Phase 3** | `module-3.1` | Kafka Partitions & Consumer Groups | Round-robin unordered delivery | Key-based partition routing (`orderId`) + Manual Commit | ✅ Done |
+| **Phase 3** | `module-3.2` | Transactional Outbox Pattern | Unsafe dual-write | Atomic DB Outbox + CDC Relay (`FOR UPDATE SKIP LOCKED`) | ✅ Done |
+| **Phase 3** | `module-3.3` | Messaging Head-to-Head | Single queue bottleneck | Comparative Benchmark Matrix: Kafka vs RabbitMQ vs BullMQ | ✅ Done |
+| **Phase 4** | `module-4.1` | Dynamic Feature Flags & Canary | Hardcoded `if/else` redeploys | Redis Dynamic Flags (sub-5ms) + Async Shadow Traffic | ✅ Done |
+| **Phase 4** | `module-4.2` | High-Performance File Streaming | `readFileSync` RAM bloat | Node.js Stream Backpressure (< 30 MB RAM) & Chunked Export | ✅ Done |
+
+---
+
+## ⚡ Live Performance Benchmark Highlights (Empirical Results)
+
+### 1. Pagination on 10,000,000 Rows (`benchmark_users`)
+- **Naïve Offset (`OFFSET 5,000,000`)**: `1,418.04 ms` (~5,000,000 rows scanned & discarded).
+- **Optimized Keyset Cursor (`WHERE id > 5000000`)**: **`3.14 ms`** (Exactly 20 rows read via index seek).
+- **Result**: **450x Speedup** via Index Seeking.
+
+### 2. JSONB Search on 10,000,000 Orders (`benchmark_indexing_orders`)
+- **GIN Index Containment (`metadata @> '{"category": "ELECTRONICS"}'`)**: **`0.114 ms`** sub-millisecond search latency across 10M JSONB records.
+
+### 3. Flash Sale High-Concurrency Inventory (`redis-lua`)
+- **Atomic Redis Lua DECRBY**: **25,000 RPS** with **0% overselling / race conditions**.
+
+### 4. Large CSV File Processing (`file-streaming`)
+- **Node.js Pipeline Stream Backpressure**: Ingests/exports 100,000+ row CSV files maintaining a constant RAM footprint **< 30 MB**.
+
+---
+
+## 🚀 Quick Start Guide
+
+### 1. Prerequisites
+- [Node.js](https://nodejs.org/) v20+ / v22+
+- [pnpm](https://pnpm.io/)
+- [Docker](https://www.docker.com/) & Docker Compose
+
+### 2. Infrastructure Setup
+Start PostgreSQL, Redis, Kafka, and RabbitMQ via Docker Compose:
 ```bash
-$ pnpm install
+docker-compose up -d
 ```
 
-## Compile and run the project
-
+### 3. Install Dependencies & Build
 ```bash
-# development
-$ pnpm run start
-
-# watch mode
-$ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
+pnpm install
+pnpm run build
 ```
 
-## Run tests
-
+### 4. Seed High-Volume Benchmark Dataset (10 Million Rows)
+Run the automated seed script to populate PostgreSQL with 10M Users, 10M Orders, 10k Products, 100k Ledger Transactions, and 100k Outbox Events:
 ```bash
-# unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
+pnpm run seed:benchmark
 ```
+*Alternatively, you can execute the SQL script [`scripts/seed-benchmark-data.sql`](scripts/seed-benchmark-data.sql) directly in DBeaver (`Alt+X`).*
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
+### 5. Start NestJS Server
 ```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
+pnpm run start:dev
 ```
+*Server running on `http://localhost:3000`.*
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
 
-## Resources
+## 🧪 Testing with Postman
 
-Check out a few resources that may come in handy when working with NestJS:
+Each module comes with its own pre-built Postman Collection artifact:
+- `src/modules/db-pagination/postman/db-pagination-postman-collection.json`
+- `src/modules/db-sargable/postman/db-sargable-postman-collection.json`
+- `src/modules/db-indexing/postman/db-indexing-postman-collection.json`
+- `src/modules/db-window-mview/postman/db-window-mview-postman-collection.json`
+- `src/modules/db-ledger/postman/db-ledger-postman-collection.json`
+- `src/modules/concurrency-locking/postman/concurrency-locking-postman-collection.json`
+- `src/modules/redis-lua/postman/redis-lua-postman-collection.json`
+- `src/modules/idempotency-pool/postman/idempotency-pool-postman-collection.json`
+- `src/modules/kafka-core/postman/kafka-core-postman-collection.json`
+- `src/modules/outbox-pattern/postman/outbox-pattern-postman-collection.json`
+- `src/modules/messaging-comparison/postman/messaging-comparison-postman-collection.json`
+- `src/modules/traffic-engineering/postman/traffic-engineering-postman-collection.json`
+- `src/modules/file-streaming/postman/file-streaming-postman-collection.json`
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+---
 
-## Support
+## 👤 Author & License
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Developed by **[ngphuc2808](https://github.com/ngphuc2808)** under the **MIT License**.

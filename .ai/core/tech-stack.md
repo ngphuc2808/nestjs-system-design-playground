@@ -1,46 +1,28 @@
 ---
-provenance: manual
+provenance: reverse-search
+scanned_at: "2026-08-06"
 confidence: high
-last_verified: "2026-08-05"
-dependencies:
-  - name: "@nestjs/core"
-    version: "^11.0.0"
-  - name: typeorm
-    version: "^0.3.20"
-  - name: pg
-    version: "^8.13.0"
-  - name: ioredis
-    version: "^5.4.0"
-  - name: kafkajs
-    version: "^2.2.4"
-  - name: amqplib
-    version: "^0.10.4"
-  - name: bullmq
-    version: "^5.25.0"
 ---
 
-# Tech Stack
+# Tech Stack — NestJS Playground
 
-## Languages & Runtimes
-- **Node.js**: v20+ LTS
-- **TypeScript**: v5.7+
+## Core Runtime & Framework
+- **Node.js**: v22.x LTS
+- **NestJS**: v11.0.1
+- **TypeScript**: v5.7.3
+- **Package Manager**: pnpm
 
-## Frameworks
-- **NestJS**: v11 (Modular Monolith architecture, Dependency Injection, Guards, Interceptors)
+## Storage & Databases
+- **PostgreSQL**: 16-alpine (Port 5432, TypeORM v1.1.0)
+- **Redis**: 7-alpine (Port 6379, ioredis v6.0.0, Lua Scripts)
+- **PgBouncer**: Connection pooler
 
-## Key Libraries & Tools
-- **Data Access / ORM**: TypeORM / Raw SQL with `pg` driver
-- **In-Memory & Cache**: Redis via `ioredis` (Lua scripts, Atomic operations)
-- **Messaging & Queues**:
-  - Apache Kafka (`kafkajs`)
-  - RabbitMQ (`amqplib`)
-  - BullMQ (`bullmq`)
-- **Utility / Streaming**: `csv-parser` / Node.js native streams pipeline
+## Messaging & Queues
+- **Apache Kafka**: KRaft mode (Port 9092, kafkajs v2.2.4)
+- **RabbitMQ**: 3-management (Port 5672, amqplib v2.0.1)
+- **BullMQ**: v6.0.7 (Redis-backed job queue)
 
-## Infrastructure & Hosting
-- **Local Environment**: Docker & Docker Compose (PostgreSQL 16, Redis 7, Kafka + Zookeeper / KRaft, RabbitMQ management, PgBouncer)
-- **API Testing**: Postman collections per module
-
-## Development & Code Quality
-- **Package Manager**: `pnpm`
-- **Linting & Formatting**: ESLint, Prettier
+## Utilities & Testing
+- **Jest**: v30.0.0 (Unit & E2E Testing)
+- **Postman**: Collections under `src/modules/<module-name>/postman/`
+- **pg**: v8.22.0 (Direct Node PostgreSQL client for bulk seeding)
