@@ -27,15 +27,13 @@ export class DbIndexingOptimizedService {
     const createdAfter = dto.createdAfter || '2026-08-01 00:00:00+00';
 
     // LEFTMOST PREFIX RULE SATISFIED: Query starts with leading `status` column followed by `created_at`
-    const query = `
-      SELECT id, user_id AS "userId", status, total_amount AS "totalAmount", created_at AS "createdAt"
-      FROM benchmark_indexing_orders
-      WHERE status = $1 AND created_at >= $2
-      LIMIT 50
-    `;
+    const query = `SELECT id, user_id AS "userId", status, total_amount AS "totalAmount", created_at AS "createdAt" FROM benchmark_indexing_orders WHERE status = $1 AND created_at >= $2 LIMIT 50`;
 
     const explain = await this.parseExplainPlan(query, [status, createdAfter]);
     const data: IndexingOrderEntity[] = await this.dataSource.query(query, [status, createdAfter]);
+
+    const rawSql = `SELECT id, user_id AS "userId", status, total_amount AS "totalAmount", created_at AS "createdAt" FROM benchmark_indexing_orders WHERE status = '${status}' AND created_at >= '${createdAfter}' LIMIT 50;`;
+    const explainAnalyzeSql = `EXPLAIN ANALYZE ${rawSql}`;
 
     return {
       data,
@@ -47,6 +45,11 @@ export class DbIndexingOptimizedService {
         sharedHitBlocks: explain.sharedHitBlocks,
         sharedReadBlocks: explain.sharedReadBlocks,
         explainPlanRaw: explain.raw,
+        sqlDebug: {
+          rawSql,
+          explainAnalyzeSql,
+          scanType: `${explain.scanType} (Composite Index Seek)`,
+        },
       },
     };
   }
@@ -56,15 +59,13 @@ export class DbIndexingOptimizedService {
     const jsonFilter = JSON.stringify({ category });
 
     // GIN JSONB CONTAINMENT SEARCH: Uses `@>` operator to hit GIN index!
-    const query = `
-      SELECT id, user_id AS "userId", status, total_amount AS "totalAmount", created_at AS "createdAt", metadata
-      FROM benchmark_indexing_orders
-      WHERE metadata @> $1::jsonb
-      LIMIT 50
-    `;
+    const query = `SELECT id, user_id AS "userId", status, total_amount AS "totalAmount", created_at AS "createdAt", metadata FROM benchmark_indexing_orders WHERE metadata @> $1::jsonb LIMIT 50`;
 
     const explain = await this.parseExplainPlan(query, [jsonFilter]);
     const data: IndexingOrderEntity[] = await this.dataSource.query(query, [jsonFilter]);
+
+    const rawSql = `SELECT id, user_id AS "userId", status, total_amount AS "totalAmount", created_at AS "createdAt", metadata FROM benchmark_indexing_orders WHERE metadata @> '{"category":"${category}"}'::jsonb LIMIT 50;`;
+    const explainAnalyzeSql = `EXPLAIN ANALYZE ${rawSql}`;
 
     return {
       data,
@@ -76,21 +77,24 @@ export class DbIndexingOptimizedService {
         sharedHitBlocks: explain.sharedHitBlocks,
         sharedReadBlocks: explain.sharedReadBlocks,
         explainPlanRaw: explain.raw,
+        sqlDebug: {
+          rawSql,
+          explainAnalyzeSql,
+          scanType: `${explain.scanType} (GIN JSONB Containment)`,
+        },
       },
     };
   }
 
   async getPartialOptimized(dto: SearchIndexingOrderDto): Promise<IndexingResponse<IndexingOrderEntity>> {
-    // PARTIAL INDEX: Hits small index dedicated to status = 'PENDING'
-    const query = `
-      SELECT id, user_id AS "userId", status, total_amount AS "totalAmount", created_at AS "createdAt"
-      FROM benchmark_indexing_orders
-      WHERE status = 'PENDING'
-      LIMIT 50
-    `;
+    const status = dto.status || 'PENDING';
+    const query = `SELECT id, user_id AS "userId", status, total_amount AS "totalAmount", created_at AS "createdAt" FROM benchmark_indexing_orders WHERE status = 'PENDING' LIMIT 50`;
 
     const explain = await this.parseExplainPlan(query);
     const data: IndexingOrderEntity[] = await this.dataSource.query(query);
+
+    const rawSql = `SELECT id, user_id AS "userId", status, total_amount AS "totalAmount", created_at AS "createdAt" FROM benchmark_indexing_orders WHERE status = '${status}' LIMIT 50;`;
+    const explainAnalyzeSql = `EXPLAIN ANALYZE ${rawSql}`;
 
     return {
       data,
@@ -102,6 +106,11 @@ export class DbIndexingOptimizedService {
         sharedHitBlocks: explain.sharedHitBlocks,
         sharedReadBlocks: explain.sharedReadBlocks,
         explainPlanRaw: explain.raw,
+        sqlDebug: {
+          rawSql,
+          explainAnalyzeSql,
+          scanType: `${explain.scanType} (Partial Index Seek)`,
+        },
       },
     };
   }
@@ -112,7 +121,6 @@ export class DbIndexingOptimizedService {
 
     const startMs = performance.now();
 
-    // Ensure GIN Index exists on JSONB column
     await this.dataSource.query(`
       CREATE INDEX IF NOT EXISTS idx_orders_meta_gin ON benchmark_indexing_orders USING GIN (metadata);
     `);

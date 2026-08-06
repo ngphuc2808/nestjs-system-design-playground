@@ -30,6 +30,9 @@ export class DbPaginationOptimizedService {
     const data: UserBenchmarkEntity[] = await this.dataSource.query(query, [limit, offset]);
     const executionTimeMs = Number((performance.now() - startMs).toFixed(3));
 
+    const rawSql = `SELECT u.id, u.username, u.email, u.age, u.status, u.created_at AS "createdAt" FROM benchmark_users u INNER JOIN (SELECT id FROM benchmark_users ORDER BY id ASC LIMIT ${limit} OFFSET ${offset}) AS tmp ON u.id = tmp.id ORDER BY u.id ASC;`;
+    const explainAnalyzeSql = `EXPLAIN ANALYZE ${rawSql}`;
+
     return {
       data,
       meta: {
@@ -42,6 +45,11 @@ export class DbPaginationOptimizedService {
         strategy: 'DEFERRED_JOIN',
         scanType: 'Index Only Scan (PK Subquery) + Nested Loop / Hash Join',
         totalRowsScannedEstimate: `Only ${limit} full row I/Os fetched from heap`,
+        sqlDebug: {
+          rawSql,
+          explainAnalyzeSql,
+          scanType: 'Index Only Scan (PK Subquery) + Join',
+        },
       },
     };
   }
@@ -66,6 +74,9 @@ export class DbPaginationOptimizedService {
 
     const nextCursor = data.length > 0 ? data[data.length - 1].id : null;
 
+    const rawSql = `SELECT id, username, email, age, status, created_at AS "createdAt" FROM benchmark_users WHERE id > ${cursor} ORDER BY id ASC LIMIT ${limit};`;
+    const explainAnalyzeSql = `EXPLAIN ANALYZE ${rawSql}`;
+
     return {
       data,
       meta: {
@@ -78,6 +89,11 @@ export class DbPaginationOptimizedService {
         strategy: 'KEYSET_CURSOR',
         scanType: 'Index Seek (B-Tree O(log N) Lookup)',
         totalRowsScannedEstimate: `Exactly ${data.length} rows read via index seek`,
+        sqlDebug: {
+          rawSql,
+          explainAnalyzeSql,
+          scanType: 'Index Seek (B-Tree O(log N) Lookup)',
+        },
       },
     };
   }

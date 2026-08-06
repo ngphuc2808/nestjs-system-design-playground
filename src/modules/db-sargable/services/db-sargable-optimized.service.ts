@@ -10,22 +10,19 @@ export class DbSargableOptimizedService {
   constructor(private readonly dataSource: DataSource) {}
 
   async searchDateRangeOptimized(dto: SearchDateDto): Promise<SargableResponse<UserBenchmarkEntity>> {
-    const targetDateStr = dto.targetDate || '2026-08-05';
-    const startDate = `${targetDateStr} 00:00:00+00`;
-    const endDate = `${targetDateStr} 23:59:59.999+00`;
+    const startDate = dto.startDate || `${dto.targetDate || '2026-08-01'} 00:00:00`;
+    const endDate = dto.endDate || `${dto.targetDate || '2026-08-02'} 23:59:59`;
 
     const startMs = performance.now();
 
     // SARGABLE QUERY: Range condition created_at >= $1 AND created_at <= $2 allows B-Tree Index Range Scan!
-    const query = `
-      SELECT id, username, email, age, status, created_at AS "createdAt"
-      FROM benchmark_users
-      WHERE created_at >= $1 AND created_at <= $2
-      LIMIT 50
-    `;
+    const query = `SELECT id, username, email, age, status, created_at AS "createdAt" FROM benchmark_users WHERE created_at >= $1 AND created_at <= $2 LIMIT 50`;
 
     const data: UserBenchmarkEntity[] = await this.dataSource.query(query, [startDate, endDate]);
     const executionTimeMs = Number((performance.now() - startMs).toFixed(3));
+
+    const rawSql = `SELECT id, username, email, age, status, created_at AS "createdAt" FROM benchmark_users WHERE created_at >= '${startDate}' AND created_at <= '${endDate}' LIMIT 50;`;
+    const explainAnalyzeSql = `EXPLAIN ANALYZE ${rawSql}`;
 
     return {
       data,
@@ -35,24 +32,31 @@ export class DbSargableOptimizedService {
         strategy: 'SARGABLE_DATE_RANGE',
         scanType: 'Index Range Scan (B-Tree index seek on created_at)',
         planCacheStatus: 'Plan Cached & Reused',
-        queryExecuted: query.trim(),
+        queryExecuted: rawSql,
+        sqlDebug: {
+          rawSql,
+          explainAnalyzeSql,
+          scanType: 'Index Range Scan (B-Tree Seek)',
+        },
       },
     };
   }
 
   async searchUserParameterBindingOptimized(dto: SearchUserDto): Promise<SargableResponse<UserBenchmarkEntity>> {
     const username = dto.username || 'user_100';
+    const email = dto.email || 'user';
+    const searchTerm = dto.username ? username : email;
+
     const startMs = performance.now();
 
     // PARAMETER BINDING ($1): Allows PostgreSQL engine to cache prepared statement query plan & prevents SQL Injection
-    const query = `
-      SELECT id, username, email, age, status, created_at AS "createdAt"
-      FROM benchmark_users
-      WHERE username = $1
-    `;
+    const query = `SELECT id, username, email, age, status, created_at AS "createdAt" FROM benchmark_users WHERE username = $1 OR email LIKE $2 LIMIT 50`;
 
-    const data: UserBenchmarkEntity[] = await this.dataSource.query(query, [username]);
+    const data: UserBenchmarkEntity[] = await this.dataSource.query(query, [searchTerm, `%${searchTerm}%`]);
     const executionTimeMs = Number((performance.now() - startMs).toFixed(3));
+
+    const rawSql = `SELECT id, username, email, age, status, created_at AS "createdAt" FROM benchmark_users WHERE username = '${searchTerm}' OR email LIKE '%${searchTerm}%' LIMIT 50;`;
+    const explainAnalyzeSql = `EXPLAIN ANALYZE ${rawSql}`;
 
     return {
       data,
@@ -62,7 +66,12 @@ export class DbSargableOptimizedService {
         strategy: 'PREPARED_STATEMENT_BINDING',
         scanType: 'Index Scan (Parameterized B-Tree Seek)',
         planCacheStatus: 'Cache Hit (Prepared Statement execution plan reused across requests)',
-        queryExecuted: query.trim(),
+        queryExecuted: rawSql,
+        sqlDebug: {
+          rawSql,
+          explainAnalyzeSql,
+          scanType: 'Index Scan (Prepared Statement)',
+        },
       },
     };
   }

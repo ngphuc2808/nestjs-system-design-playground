@@ -16,15 +16,13 @@ export class DbPaginationNaiveService {
     const startMs = performance.now();
 
     // Naive O(N) Offset SQL query: scans & discards `offset` rows before returning `limit` rows
-    const query = `
-      SELECT id, username, email, age, status, created_at AS "createdAt"
-      FROM benchmark_users
-      ORDER BY id ASC
-      LIMIT $1 OFFSET $2
-    `;
+    const query = `SELECT id, username, email, age, status, created_at AS "createdAt" FROM benchmark_users ORDER BY id ASC LIMIT $1 OFFSET $2`;
 
     const data: UserBenchmarkEntity[] = await this.dataSource.query(query, [limit, offset]);
     const executionTimeMs = Number((performance.now() - startMs).toFixed(3));
+
+    const rawSql = `SELECT id, username, email, age, status, created_at AS "createdAt" FROM benchmark_users ORDER BY id ASC LIMIT ${limit} OFFSET ${offset};`;
+    const explainAnalyzeSql = `EXPLAIN ANALYZE ${rawSql}`;
 
     return {
       data,
@@ -38,6 +36,11 @@ export class DbPaginationNaiveService {
         strategy: 'NAIVE_OFFSET',
         scanType: offset > 50000 ? 'Sequential / High Index Skip Cost (Seq/Index Scan O(N))' : 'Index Scan',
         totalRowsScannedEstimate: `~${offset + data.length} rows scanned & discarded`,
+        sqlDebug: {
+          rawSql,
+          explainAnalyzeSql,
+          scanType: 'Sequential / Index Scan O(N)',
+        },
       },
     };
   }

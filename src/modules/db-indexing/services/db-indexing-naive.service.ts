@@ -25,15 +25,13 @@ export class DbIndexingNaiveService {
     const createdAfter = dto.createdAfter || '2026-08-01 00:00:00+00';
 
     // VIOLATES LEFTMOST PREFIX RULE: Query searches trailing `created_at` without leading `status` column!
-    const query = `
-      SELECT id, user_id AS "userId", status, total_amount AS "totalAmount", created_at AS "createdAt"
-      FROM benchmark_indexing_orders
-      WHERE created_at >= $1
-      LIMIT 50
-    `;
+    const query = `SELECT id, user_id AS "userId", status, total_amount AS "totalAmount", created_at AS "createdAt" FROM benchmark_indexing_orders WHERE created_at >= $1 LIMIT 50`;
 
     const explain = await this.parseExplainPlan(query, [createdAfter]);
     const data: IndexingOrderEntity[] = await this.dataSource.query(query, [createdAfter]);
+
+    const rawSql = `SELECT id, user_id AS "userId", status, total_amount AS "totalAmount", created_at AS "createdAt" FROM benchmark_indexing_orders WHERE created_at >= '${createdAfter}' LIMIT 50;`;
+    const explainAnalyzeSql = `EXPLAIN ANALYZE ${rawSql}`;
 
     return {
       data,
@@ -45,6 +43,11 @@ export class DbIndexingNaiveService {
         sharedHitBlocks: explain.sharedHitBlocks,
         sharedReadBlocks: explain.sharedReadBlocks,
         explainPlanRaw: explain.raw,
+        sqlDebug: {
+          rawSql,
+          explainAnalyzeSql,
+          scanType: `${explain.scanType} (Full Table Seq Scan)`,
+        },
       },
     };
   }
@@ -53,16 +56,14 @@ export class DbIndexingNaiveService {
     const category = dto.category || 'ELECTRONICS';
 
     // NON-GIN JSONB SEARCH: Casting JSONB to text forces full table Seq Scan!
-    const query = `
-      SELECT id, user_id AS "userId", status, total_amount AS "totalAmount", created_at AS "createdAt", metadata
-      FROM benchmark_indexing_orders
-      WHERE metadata::text LIKE $1
-      LIMIT 50
-    `;
+    const query = `SELECT id, user_id AS "userId", status, total_amount AS "totalAmount", created_at AS "createdAt", metadata FROM benchmark_indexing_orders WHERE metadata::text LIKE $1 LIMIT 50`;
 
     const searchParam = `%${category}%`;
     const explain = await this.parseExplainPlan(query, [searchParam]);
     const data: IndexingOrderEntity[] = await this.dataSource.query(query, [searchParam]);
+
+    const rawSql = `SELECT id, user_id AS "userId", status, total_amount AS "totalAmount", created_at AS "createdAt", metadata FROM benchmark_indexing_orders WHERE metadata::text LIKE '%${category}%' LIMIT 50;`;
+    const explainAnalyzeSql = `EXPLAIN ANALYZE ${rawSql}`;
 
     return {
       data,
@@ -74,6 +75,11 @@ export class DbIndexingNaiveService {
         sharedHitBlocks: explain.sharedHitBlocks,
         sharedReadBlocks: explain.sharedReadBlocks,
         explainPlanRaw: explain.raw,
+        sqlDebug: {
+          rawSql,
+          explainAnalyzeSql,
+          scanType: `${explain.scanType} (JSONB Text Casting Seq Scan)`,
+        },
       },
     };
   }
