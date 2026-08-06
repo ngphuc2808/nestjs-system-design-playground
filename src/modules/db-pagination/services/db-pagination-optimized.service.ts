@@ -52,7 +52,7 @@ export class DbPaginationOptimizedService {
 
     const startMs = performance.now();
 
-    // Keyset / Cursor-based Pagination: O(1) constant time index seek via B-Tree WHERE id > $1
+    // Keyset / Cursor-based Pagination: O(log N) B-Tree index seek (O(1) relative to offset depth K) via WHERE id > $1
     const query = `
       SELECT id, username, email, age, status, created_at AS "createdAt"
       FROM benchmark_users
@@ -76,7 +76,7 @@ export class DbPaginationOptimizedService {
       performance: {
         executionTimeMs,
         strategy: 'KEYSET_CURSOR',
-        scanType: 'Index Seek (B-Tree O(1) Constant Time Lookup)',
+        scanType: 'Index Seek (B-Tree O(log N) Lookup)',
         totalRowsScannedEstimate: `Exactly ${data.length} rows read via index seek`,
       },
     };

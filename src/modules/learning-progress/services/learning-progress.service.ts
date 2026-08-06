@@ -43,10 +43,10 @@ export class LearningProgressService {
         phase: 'Phase 1',
         moduleCode: 'module-1.1',
         title: 'Pagination Benchmark (Offset vs Deferred Join vs Keyset)',
-        description: 'Compare Offset O(N) vs Deferred Join vs Keyset Cursor-based O(1) pagination on 1M+ rows',
+        description: 'Compare Offset O(N) vs Deferred Join vs Keyset Cursor-based O(log N) pagination on 10M+ rows',
         status: TopicStatus.COMPLETED,
         keyTakeaways: [
-          'Keyset Cursor-based pagination scales O(1) via Index Seeking regardless of offset depth',
+          'Keyset Cursor-based pagination scales O(log N) via B-Tree Index Seeking regardless of offset depth',
           'Deferred Join reduces RAM I/O by fetching PKs before full row joining',
         ],
         benchmark: { naiveLatencyMs: 380, optimizedLatencyMs: 2.1, naiveRps: 15, optimizedRps: 1200, latencyImprovementPercentage: '99.4% faster', rpsImprovementFactor: '80.0x throughput' },

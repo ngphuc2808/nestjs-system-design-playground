@@ -24,7 +24,7 @@ Every module in this repository follows a strict **Naïve vs. Optimized** compar
 |---|---|---|---|---|---|
 | **Phase 0** | `infra-setup` | Infrastructure Setup | Baseline Docker setup | PostgreSQL 16 + Redis 7 + Kafka KRaft + RabbitMQ | ✅ Done |
 | **Phase 0** | `module-0` | Learning Progress API | Hardcoded tracking | SOLID-compliant progress & benchmark summary API | ✅ Done |
-| **Phase 1** | `module-1.1` | Pagination Benchmark (10M Rows) | Offset `O(N)` Seq Scan (1,418 ms) | Keyset Cursor `O(1)` Index Seek (**3.1 ms** - 450x faster) | ✅ Done |
+| **Phase 1** | `module-1.1` | Pagination Benchmark (10M Rows) | Offset `O(N)` Seq Scan (1,418 ms) | Keyset Cursor `O(log N)` Index Seek (**3.1 ms** - 450x faster) | ✅ Done |
 | **Phase 1** | `module-1.2` | Sargable Queries & Plan Caching | Non-sargable `DATE()` wrapper | Sargable Index Range Scan + Prepared Statements | ✅ Done |
 | **Phase 1** | `module-1.3` | Advanced Indexing & EXPLAIN (10M Rows) | Full table Seq Scan | B-Tree Leftmost Prefix, Partial Index, GIN JSONB (**0.1 ms**) | ✅ Done |
 | **Phase 1** | `module-1.4` | Window Functions & MViews | In-memory V8 row aggregation | SQL `ROW_NUMBER()` & Concurrent Materialized Views | ✅ Done |

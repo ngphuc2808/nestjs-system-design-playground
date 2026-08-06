@@ -52,7 +52,7 @@ Tài liệu này quy định lộ trình phát triển chi tiết của hệ th�
 - **Mục tiêu**: So sánh trực tiếp 3 cơ chế phân trang trên bảng lớn (> 1,000,000 dòng):
   - `Offset Pagination`: `OFFSET 1000000 LIMIT 20` ($O(N)$ - Seq scan/Index scan bỏ qua N bản ghi).
   - `Deferred Join`: Tối ưu Offset bằng cách Join chỉ lấy PK trước (`SELECT id FROM ... OFFSET ... LIMIT ...`).
-  - `Keyset / Cursor-based Pagination`: `WHERE id > last_seen_id LIMIT 20` ($O(1)$ - Index seek).
+  - `Keyset / Cursor-based Pagination`: `WHERE id > last_seen_id LIMIT 20` ($O(\log N)$ B-Tree Index Seek).
 - **Lệnh thực thi**:
   - 💬 **Slash Command**: `/add-feature db-pagination-benchmark`
   - 💻 **Terminal CLI**: `ai-framework add-feature db-pagination-benchmark --touches src/modules/db-pagination/`

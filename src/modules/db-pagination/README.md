@@ -10,9 +10,9 @@ Module này đo đạc và chứng minh thực tế sự khác biệt hiệu nă
    - Cú pháp: `SELECT u.* FROM benchmark_users u INNER JOIN (SELECT id FROM benchmark_users ORDER BY id ASC LIMIT $1 OFFSET $2) AS tmp ON u.id = tmp.id`
    - Ưu điểm: Đẩy phần OFFSET xuống Subquery chỉ quét duy nhất cột B-Tree Primary Key (`id`), giảm thiểu I/O đọc full row trên Heap.
 
-3. **Keyset / Cursor-Based Pagination ($O(1)$)**:
-   - Cú pháp: `SELECT * FROM benchmark_users WHERE id > $1 ORDER BY id ASC LIMIT $2`
-   - Ưu điểm: Đạt thời gian hằng số $O(1)$ nhờ cơ chế Index Seek nhảy trực tiếp tới vị trí `cursor`.
+3. **Keyset / Cursor-Based Pagination ($O(\log N)$)**:
+   - Sử dụng điều kiện lọc `WHERE id > last_seen_id ORDER BY id ASC LIMIT N`.
+   - Ưu điểm: Đạt độ phức tạp $O(\log N)$ nhờ cơ chế B-Tree Index Seek nhảy trực tiếp tới vị trí `cursor` (thời gian hằng số $O(1)$ so với độ sâu trang offset $K$).
 
 ## API Endpoints
 

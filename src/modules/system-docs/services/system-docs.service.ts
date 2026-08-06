@@ -10,7 +10,7 @@ export class SystemDocsService {
       moduleCode: 'module-1.1',
       title: 'Pagination Benchmark (10M Rows)',
       badge: 'Database Optimization',
-      overview: 'So sánh hiệu năng phân trang trên tập dữ liệu 10 triệu dòng giữa Offset Sequential Scan O(N) và Keyset Cursor Index Seek O(1).',
+      overview: 'So sánh hiệu năng phân trang trên tập dữ liệu 10 triệu dòng giữa Offset Sequential Scan O(N) và Keyset Cursor Index Seek O(log N).',
       naiveStrategy: {
         description: 'Naive Offset (OFFSET 5,000,000 LIMIT 20): Đọc và bỏ qua 5 triệu dòng trước khi trả về kết quả.',
         endpoint: '/api/v1/db-pagination/naive/users?page=250000&limit=20',
@@ -21,7 +21,7 @@ export class SystemDocsService {
         description: 'Optimized Keyset Cursor (WHERE id > 5000000 LIMIT 20): Nhảy thẳng tới vị trí B-Tree Index Seek.',
         endpoint: '/api/v1/db-pagination/optimized/users/keyset?cursor=5000000&limit=20',
         method: 'GET',
-        advantage: 'Tốc độ O(1) hằng số < 5ms dù ở trang thứ 1 hay trang thứ 1 triệu.',
+        advantage: 'Tốc độ O(log N) B-Tree seek < 5ms hằng số so với độ sâu trang offset K (trang thứ 1 hay 1 triệu đều như nhau).',
       },
       flowSteps: [
         { stepNumber: 1, title: 'Client Request', description: 'Client gửi cursor ID của bản ghi cuối trang trước', component: 'Web/Postman' },
