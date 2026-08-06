@@ -98,11 +98,11 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:3000/api/v1/db-pagination/optimized/users/deferred?page=250000&limit=20",
+              "raw": "http://localhost:3000/api/v1/db-pagination/optimized/users/deferred-join?page=250000&limit=20",
               "protocol": "http",
               "host": ["localhost"],
               "port": "3000",
-              "path": ["api", "v1", "db-pagination", "optimized", "users", "deferred"],
+              "path": ["api", "v1", "db-pagination", "optimized", "users", "deferred-join"],
               "query": [
                 { "key": "page", "value": "250000" },
                 { "key": "limit", "value": "20" }
