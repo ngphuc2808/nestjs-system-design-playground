@@ -11,11 +11,11 @@ export function renderDocsHtml(modules: SystemModuleDoc[]): string {
   <title>⚡ NestJS System Design & Architecture Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-primary: #0a0d14;
-      --bg-card: rgba(18, 24, 38, 0.75);
+      --bg-primary: #090d16;
+      --bg-card: rgba(17, 24, 39, 0.75);
       --bg-card-hover: rgba(28, 36, 56, 0.85);
       --border-color: rgba(255, 255, 255, 0.08);
       --border-glow: rgba(99, 102, 241, 0.3);
@@ -24,11 +24,10 @@ export function renderDocsHtml(modules: SystemModuleDoc[]): string {
       --accent-cyan: #06b6d4;
       --accent-green: #10b981;
       --accent-red: #ef4444;
-      --accent-orange: #f59e0b;
       --text-main: #f3f4f6;
       --text-muted: #9ca3af;
-      --font-main: 'Outfit', -apple-system, sans-serif;
-      --font-code: 'Fira Code', monospace;
+      --font-main: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-code: 'JetBrains Mono', Consolas, Monaco, monospace;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -39,6 +38,8 @@ export function renderDocsHtml(modules: SystemModuleDoc[]): string {
       display: flex;
       height: 100vh;
       overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
       background-image: 
         radial-gradient(circle at 15% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
         radial-gradient(circle at 85% 80%, rgba(6, 182, 212, 0.15) 0%, transparent 40%);
@@ -61,6 +62,7 @@ export function renderDocsHtml(modules: SystemModuleDoc[]): string {
     .sidebar-header h1 {
       font-size: 20px;
       font-weight: 800;
+      letter-spacing: -0.5px;
       background: linear-gradient(135deg, #a5b4fc, #38bdf8);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -72,6 +74,7 @@ export function renderDocsHtml(modules: SystemModuleDoc[]): string {
       font-size: 13px;
       color: var(--text-muted);
       margin-top: 6px;
+      font-weight: 400;
     }
     .module-list {
       flex: 1;
@@ -118,6 +121,7 @@ export function renderDocsHtml(modules: SystemModuleDoc[]): string {
       font-size: 14px;
       font-weight: 600;
       color: var(--text-main);
+      line-height: 1.4;
     }
     .module-code {
       font-size: 11px;
@@ -143,8 +147,9 @@ export function renderDocsHtml(modules: SystemModuleDoc[]): string {
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     }
     .hero-title {
-      font-size: 28px;
+      font-size: 26px;
       font-weight: 800;
+      letter-spacing: -0.5px;
       margin-bottom: 8px;
       color: #ffffff;
       display: flex;
@@ -152,9 +157,10 @@ export function renderDocsHtml(modules: SystemModuleDoc[]): string {
       gap: 12px;
     }
     .hero-desc {
-      font-size: 15px;
+      font-size: 14px;
       color: var(--text-muted);
       line-height: 1.6;
+      font-weight: 400;
     }
 
     /* Strategy Cards Grid */
@@ -184,33 +190,42 @@ export function renderDocsHtml(modules: SystemModuleDoc[]): string {
       margin-bottom: 16px;
     }
     .card-tag {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
       padding: 4px 10px;
       border-radius: 6px;
       text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
     .card-tag-naive { background: rgba(239, 68, 68, 0.15); color: #fca5a5; }
     .card-tag-optimized { background: rgba(16, 185, 129, 0.15); color: #6ee7b7; }
+    
     .endpoint-badge {
       font-family: var(--font-code);
       font-size: 12px;
-      padding: 6px 12px;
-      background: rgba(0, 0, 0, 0.4);
+      font-weight: 500;
+      letter-spacing: 0.2px;
+      padding: 8px 14px;
+      background: #0d1117;
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 8px;
       color: #38bdf8;
       margin-bottom: 14px;
       display: inline-block;
+      word-break: break-all;
+      line-height: 1.4;
     }
     .card-desc {
       font-size: 14px;
       color: var(--text-main);
-      line-height: 1.5;
+      line-height: 1.6;
+      font-weight: 400;
       margin-bottom: 14px;
     }
     .card-footer {
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 500;
+      line-height: 1.5;
       padding-top: 12px;
       border-top: 1px solid var(--border-color);
     }
@@ -219,8 +234,9 @@ export function renderDocsHtml(modules: SystemModuleDoc[]): string {
 
     /* Flow Sequence Steps */
     .section-title {
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 700;
+      letter-spacing: -0.3px;
       margin-bottom: 16px;
       display: flex;
       align-items: center;
@@ -252,15 +268,16 @@ export function renderDocsHtml(modules: SystemModuleDoc[]): string {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
+      font-size: 15px;
       box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
     }
     .step-body { flex: 1; }
-    .step-title { font-size: 15px; font-weight: 600; color: #ffffff; }
-    .step-desc { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+    .step-title { font-size: 14px; font-weight: 600; color: #ffffff; }
+    .step-desc { font-size: 13px; color: var(--text-muted); margin-top: 2px; font-weight: 400; line-height: 1.5; }
     .step-component {
       font-family: var(--font-code);
       font-size: 11px;
+      font-weight: 500;
       background: rgba(255, 255, 255, 0.06);
       padding: 4px 10px;
       border-radius: 6px;
@@ -278,8 +295,8 @@ export function renderDocsHtml(modules: SystemModuleDoc[]): string {
       align-items: center;
     }
     .metric-item { text-align: center; }
-    .metric-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; }
-    .metric-value { font-size: 22px; font-weight: 800; color: #ffffff; margin-top: 4px; }
+    .metric-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; }
+    .metric-value { font-size: 20px; font-weight: 800; color: #ffffff; margin-top: 4px; }
     .metric-highlight { color: #6ee7b7; }
 
     .curl-box {
@@ -291,10 +308,12 @@ export function renderDocsHtml(modules: SystemModuleDoc[]): string {
     }
     .curl-code {
       font-family: var(--font-code);
-      font-size: 13px;
+      font-size: 12px;
+      font-weight: 400;
       color: #7dd3fc;
       white-space: pre-wrap;
       word-break: break-all;
+      line-height: 1.5;
     }
     .copy-btn {
       position: absolute;
@@ -306,6 +325,7 @@ export function renderDocsHtml(modules: SystemModuleDoc[]): string {
       padding: 6px 12px;
       border-radius: 6px;
       font-size: 12px;
+      font-weight: 500;
       cursor: pointer;
       transition: all 0.2s;
     }
