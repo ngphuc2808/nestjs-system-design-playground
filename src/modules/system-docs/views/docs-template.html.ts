@@ -353,14 +353,14 @@ export function renderDocsHtml(modules: SystemModuleDoc[]): string {
   <main class="main-content" id="mainContent">
     <div class="hero-banner">
       <div class="hero-title" id="heroTitle">⚡ Select a Module</div>
-      <div class="hero-desc" id="heroDesc">Choose any System Design module from the left sidebar to inspect its architecture flow, Naïve vs. Optimized code comparison, and live execution metrics.</div>
+      <div class="hero-desc" id="heroDesc">Choose any System Design module from the left sidebar to inspect its architecture flow, Naive vs. Optimized code comparison, and live execution metrics.</div>
     </div>
 
     <!-- Strategy Cards Grid -->
     <div class="strategy-grid">
       <div class="card card-naive">
         <div class="card-header">
-          <span class="card-tag card-tag-naive">🔴 Naïve Strategy</span>
+          <span class="card-tag card-tag-naive">🔴 NAIVE STRATEGY</span>
         </div>
         <div class="endpoint-badge" id="naiveEndpoint">METHOD /api/v1/sample</div>
         <div class="card-desc" id="naiveDesc">Baseline code path.</div>
@@ -369,7 +369,7 @@ export function renderDocsHtml(modules: SystemModuleDoc[]): string {
 
       <div class="card card-optimized">
         <div class="card-header">
-          <span class="card-tag card-tag-optimized">🟢 Optimized Strategy</span>
+          <span class="card-tag card-tag-optimized">🟢 OPTIMIZED STRATEGY</span>
         </div>
         <div class="endpoint-badge" id="optimizedEndpoint">METHOD /api/v1/sample</div>
         <div class="card-desc" id="optimizedDesc">High-performance code path.</div>
@@ -388,7 +388,7 @@ export function renderDocsHtml(modules: SystemModuleDoc[]): string {
       <div class="section-title">📊 Empirical Benchmark Summary</div>
       <div class="benchmark-banner">
         <div class="metric-item">
-          <div class="metric-label">Naïve Metric</div>
+          <div class="metric-label">Naive Metric</div>
           <div class="metric-value" id="naiveMetric">0 ms</div>
         </div>
         <div class="metric-item">

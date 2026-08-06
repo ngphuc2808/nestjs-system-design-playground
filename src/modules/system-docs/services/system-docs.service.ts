@@ -12,7 +12,7 @@ export class SystemDocsService {
       badge: 'Database Optimization',
       overview: 'So sánh hiệu năng phân trang trên tập dữ liệu 10 triệu dòng giữa Offset Sequential Scan O(N) và Keyset Cursor Index Seek O(1).',
       naiveStrategy: {
-        description: 'Naïve Offset (OFFSET 5,000,000 LIMIT 20): Đọc và bỏ qua 5 triệu dòng trước khi trả về kết quả.',
+        description: 'Naive Offset (OFFSET 5,000,000 LIMIT 20): Đọc và bỏ qua 5 triệu dòng trước khi trả về kết quả.',
         endpoint: '/api/v1/db-pagination/naive/users?page=250000&limit=20',
         method: 'GET',
         drawback: 'Latency tăng tuyến tính O(N), làm sập DB khi offset sâu.',
