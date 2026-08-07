@@ -21,8 +21,8 @@ export class DbSargableOptimizedService {
     const data: UserBenchmarkEntity[] = await this.dataSource.query(query, [startDate, endDate]);
     const executionTimeMs = Number((performance.now() - startMs).toFixed(3));
 
-    const rawSql = `SELECT id, username, email, age, status, created_at AS "createdAt" FROM benchmark_users WHERE created_at >= '${startDate}' AND created_at <= '${endDate}' LIMIT 50;`;
-    const explainAnalyzeSql = `EXPLAIN ANALYZE ${rawSql}`;
+    const rawSql = `SELECT id, username, email, age, status, created_at AS "createdAt" FROM benchmark_users WHERE created_at >= $1 AND created_at <= $2 LIMIT 50; -- Params: [$1 = '${startDate}', $2 = '${endDate}']`;
+    const explainAnalyzeSql = `PREPARE date_range_stmt(timestamp, timestamp) AS SELECT id, username, email, age, status, created_at AS "createdAt" FROM benchmark_users WHERE created_at >= $1 AND created_at <= $2 LIMIT 50; EXPLAIN ANALYZE EXECUTE date_range_stmt('${startDate}', '${endDate}');`;
 
     return {
       data,
@@ -55,8 +55,8 @@ export class DbSargableOptimizedService {
     const data: UserBenchmarkEntity[] = await this.dataSource.query(query, [searchTerm, `%${searchTerm}%`]);
     const executionTimeMs = Number((performance.now() - startMs).toFixed(3));
 
-    const rawSql = `SELECT id, username, email, age, status, created_at AS "createdAt" FROM benchmark_users WHERE username = '${searchTerm}' OR email LIKE '%${searchTerm}%' LIMIT 50;`;
-    const explainAnalyzeSql = `EXPLAIN ANALYZE ${rawSql}`;
+    const rawSql = `SELECT id, username, email, age, status, created_at AS "createdAt" FROM benchmark_users WHERE username = $1 OR email LIKE $2 LIMIT 50; -- Params: [$1 = '${searchTerm}', $2 = '%${searchTerm}%']`;
+    const explainAnalyzeSql = `PREPARE search_user_stmt(text, text) AS SELECT id, username, email, age, status, created_at AS "createdAt" FROM benchmark_users WHERE username = $1 OR email LIKE $2 LIMIT 50; EXPLAIN ANALYZE EXECUTE search_user_stmt('${searchTerm}', '%${searchTerm}%');`;
 
     return {
       data,
