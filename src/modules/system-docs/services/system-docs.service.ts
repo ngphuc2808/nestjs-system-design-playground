@@ -62,6 +62,12 @@ export class SystemDocsService {
         endpoint: '/api/v1/db-sargable/optimized/date-range?startDate=2026-08-01&endDate=2026-08-02',
         method: 'GET',
         advantage: 'Chỉ quét các block dữ liệu trong dải Index Range Scan.',
+        additionalEndpoints: [
+          { label: '1. Non-Sargable Date Search', method: 'GET', endpoint: '/api/v1/db-sargable/naive/date-search?date=2026-08-01' },
+          { label: '2. Non-Sargable Raw String Concat Search', method: 'GET', endpoint: '/api/v1/db-sargable/naive/raw-string?email=user' },
+          { label: '3. Sargable Range Date Search', method: 'GET', endpoint: '/api/v1/db-sargable/optimized/date-range?startDate=2026-08-01&endDate=2026-08-02' },
+          { label: '4. Optimized Prepared Parameter Binding Search', method: 'GET', endpoint: '/api/v1/db-sargable/optimized/parameter-binding?email=user' },
+        ],
       },
       flowSteps: [
         { stepNumber: 1, title: 'Query Parsing', description: 'Parse câu lệnh SQL chứa tham số định danh $1, $2', component: 'TypeORM / Raw SQL' },

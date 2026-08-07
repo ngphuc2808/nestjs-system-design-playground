@@ -178,7 +178,22 @@
           }
         },
         {
-          "name": "2. Sargable Range Date Search (GET)",
+          "name": "2. Non-Sargable Raw String Concat Search (GET)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/db-sargable/naive/raw-string?email=user",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "db-sargable", "naive", "raw-string"],
+              "query": [{ "key": "email", "value": "user" }]
+            }
+          }
+        },
+        {
+          "name": "3. Sargable Range Date Search (GET)",
           "request": {
             "method": "GET",
             "header": [],
@@ -196,7 +211,7 @@
           }
         },
         {
-          "name": "3. Optimized Prepared Parameter Binding Search (GET)",
+          "name": "4. Optimized Prepared Parameter Binding Search (GET)",
           "request": {
             "method": "GET",
             "header": [],

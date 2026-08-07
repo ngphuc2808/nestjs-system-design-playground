@@ -63,12 +63,17 @@ flowchart TD
 curl -s "http://localhost:3000/api/v1/db-sargable/naive/date-search?date=2026-08-01"
 ```
 
-### 2. Sargable Range Date Search (GET - Siêu tốc 0.8ms)
+### 2. Non-Sargable Raw String Concat Search (GET - Chậm & Nguy Cơ SQL Injection)
+```bash
+curl -s "http://localhost:3000/api/v1/db-sargable/naive/raw-string?email=user"
+```
+
+### 3. Sargable Range Date Search (GET - Siêu tốc 0.8ms)
 ```bash
 curl -s "http://localhost:3000/api/v1/db-sargable/optimized/date-range?startDate=2026-08-01&endDate=2026-08-02"
 ```
 
-### 3. Parameter Binding Prepared Search (GET - Siêu tốc 0.5ms)
+### 4. Parameter Binding Prepared Search (GET - Siêu tốc 0.5ms)
 ```bash
 curl -s "http://localhost:3000/api/v1/db-sargable/optimized/parameter-binding?email=user"
 ```
