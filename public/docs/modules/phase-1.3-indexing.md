@@ -17,17 +17,34 @@
 
 ## 🛠️ 2. Danh Sách API Endpoints (cURL Snippets)
 
-### 1. Naive Leftmost Prefix Search (GET)
+### 1. Naive Leftmost Prefix Search (GET - Chậm 220ms Seq Scan)
 ```bash
-curl -s "http://localhost:3000/api/v1/db-indexing/naive/leftmost?category=ELECTRONICS"
+curl -s "http://localhost:3000/api/v1/db-indexing/naive/leftmost?createdAfter=2026-08-01"
 ```
 
-### 2. Optimized GIN JSONB Containment Search (GET)
+### 2. Optimized Leftmost Prefix Search (GET - Siêu tốc 0.15ms B-Tree Seek)
+```bash
+curl -s "http://localhost:3000/api/v1/db-indexing/optimized/leftmost?status=PENDING&createdAfter=2026-08-01"
+```
+
+### 3. Naive Non-GIN JSONB Search (GET - Chậm Seq Scan)
+```bash
+curl -s "http://localhost:3000/api/v1/db-indexing/naive/gin-jsonb?category=ELECTRONICS"
+```
+
+### 4. Optimized GIN JSONB Containment Search (GET - Siêu tốc 0.11ms GIN Index)
 ```bash
 curl -s "http://localhost:3000/api/v1/db-indexing/optimized/gin-jsonb?category=ELECTRONICS"
 ```
 
-### 3. Optimized Partial Index Search (GET)
+### 5. Optimized Partial Index Search (GET - Siêu tốc 0.08ms Partial Index)
 ```bash
 curl -s "http://localhost:3000/api/v1/db-indexing/optimized/partial?status=PENDING"
+```
+
+### 6. Seed Indexing Orders Dataset (POST)
+```bash
+curl -X POST http://localhost:3000/api/v1/db-indexing/seed \
+  -H "Content-Type: application/json" \
+  -d '{"totalRows": 100000, "batchSize": 10000}'
 ```

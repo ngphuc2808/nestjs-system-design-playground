@@ -236,17 +236,50 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:3000/api/v1/db-indexing/naive/leftmost?category=ELECTRONICS",
+              "raw": "http://localhost:3000/api/v1/db-indexing/naive/leftmost?createdAfter=2026-08-01",
               "protocol": "http",
               "host": ["localhost"],
               "port": "3000",
               "path": ["api", "v1", "db-indexing", "naive", "leftmost"],
+              "query": [{ "key": "createdAfter", "value": "2026-08-01" }]
+            }
+          }
+        },
+        {
+          "name": "2. Optimized Leftmost Prefix Search (GET)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/db-indexing/optimized/leftmost?status=PENDING&createdAfter=2026-08-01",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "db-indexing", "optimized", "leftmost"],
+              "query": [
+                { "key": "status", "value": "PENDING" },
+                { "key": "createdAfter", "value": "2026-08-01" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "3. Naive Non-GIN JSONB Search (GET)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v1/db-indexing/naive/gin-jsonb?category=ELECTRONICS",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "db-indexing", "naive", "gin-jsonb"],
               "query": [{ "key": "category", "value": "ELECTRONICS" }]
             }
           }
         },
         {
-          "name": "2. Optimized GIN JSONB Containment Search (GET)",
+          "name": "4. Optimized GIN JSONB Containment Search (GET)",
           "request": {
             "method": "GET",
             "header": [],
@@ -261,7 +294,7 @@
           }
         },
         {
-          "name": "3. Optimized Partial Index Search (GET)",
+          "name": "5. Optimized Partial Index Search (GET)",
           "request": {
             "method": "GET",
             "header": [],
@@ -272,6 +305,21 @@
               "port": "3000",
               "path": ["api", "v1", "db-indexing", "optimized", "partial"],
               "query": [{ "key": "status", "value": "PENDING" }]
+            }
+          }
+        },
+        {
+          "name": "6. Seed Indexing Orders Dataset (POST)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"totalRows\": 100000,\n  \"batchSize\": 10000\n}" },
+            "url": {
+              "raw": "http://localhost:3000/api/v1/db-indexing/seed",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "db-indexing", "seed"]
             }
           }
         }

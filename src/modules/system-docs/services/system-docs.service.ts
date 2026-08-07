@@ -99,6 +99,14 @@ export class SystemDocsService {
         endpoint: '/api/v1/db-indexing/optimized/gin-jsonb?category=ELECTRONICS',
         method: 'GET',
         advantage: 'Truy vấn JSONB sub-millisecond trên 10 triệu bản ghi.',
+        additionalEndpoints: [
+          { label: '1. Naive Leftmost Prefix Search', method: 'GET', endpoint: '/api/v1/db-indexing/naive/leftmost?createdAfter=2026-08-01 00:00:00+00' },
+          { label: '2. Optimized Leftmost Prefix Search', method: 'GET', endpoint: '/api/v1/db-indexing/optimized/leftmost?status=PENDING&createdAfter=2026-08-01 00:00:00+00' },
+          { label: '3. Naive Non-GIN JSONB Search', method: 'GET', endpoint: '/api/v1/db-indexing/naive/gin-jsonb?category=ELECTRONICS' },
+          { label: '4. Optimized GIN JSONB Containment Search', method: 'GET', endpoint: '/api/v1/db-indexing/optimized/gin-jsonb?category=ELECTRONICS' },
+          { label: '5. Optimized Partial Index Search', method: 'GET', endpoint: '/api/v1/db-indexing/optimized/partial?status=PENDING' },
+          { label: '6. Seed Indexing Orders Dataset', method: 'POST', endpoint: '/api/v1/db-indexing/seed' },
+        ],
       },
       flowSteps: [
         { stepNumber: 1, title: 'JSONB Containment', description: 'Áp dụng toán tử containment @> trên cột metadata', component: 'PostgreSQL GIN' },

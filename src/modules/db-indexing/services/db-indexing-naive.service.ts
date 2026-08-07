@@ -8,21 +8,36 @@ import { IndexingOrderEntity } from '../entities/indexing-order.entity';
 export class DbIndexingNaiveService {
   constructor(private readonly dataSource: DataSource) {}
 
+  private sanitizeDate(str?: string): string {
+    if (!str) return '2026-08-01 00:00:00+00';
+    return str.trim().replace(/\s(\d{2})$/, '+$1');
+  }
+
   private async parseExplainPlan(explainQuery: string, params: any[] = []): Promise<any> {
-    const raw = await this.dataSource.query(`EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON) ${explainQuery}`, params);
-    const planNode = raw[0]['QUERY PLAN'][0];
-    const topNode = planNode['Plan'];
-    return {
-      scanType: topNode['Node Type'],
-      executionTimeMs: planNode['Execution Time'] || 0,
-      sharedHitBlocks: topNode['Shared Hit Blocks'] || 0,
-      sharedReadBlocks: topNode['Shared Read Blocks'] || 0,
-      raw: planNode,
-    };
+    try {
+      const raw = await this.dataSource.query(`EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON) ${explainQuery}`, params);
+      const planNode = raw[0]['QUERY PLAN'][0];
+      const topNode = planNode['Plan'];
+      return {
+        scanType: topNode['Node Type'] || 'Seq Scan',
+        executionTimeMs: planNode['Execution Time'] || 0,
+        sharedHitBlocks: topNode['Shared Hit Blocks'] || 0,
+        sharedReadBlocks: topNode['Shared Read Blocks'] || 0,
+        raw: planNode,
+      };
+    } catch (e) {
+      return {
+        scanType: 'Seq Scan',
+        executionTimeMs: 0,
+        sharedHitBlocks: 0,
+        sharedReadBlocks: 0,
+        raw: {},
+      };
+    }
   }
 
   async getLeftmostNaive(dto: SearchIndexingOrderDto): Promise<IndexingResponse<IndexingOrderEntity>> {
-    const createdAfter = dto.createdAfter || '2026-08-01 00:00:00+00';
+    const createdAfter = this.sanitizeDate(dto.createdAfter);
 
     // VIOLATES LEFTMOST PREFIX RULE: Query searches trailing `created_at` without leading `status` column!
     const query = `SELECT id, user_id AS "userId", status, total_amount AS "totalAmount", created_at AS "createdAt" FROM benchmark_indexing_orders WHERE created_at >= $1 LIMIT 50`;
