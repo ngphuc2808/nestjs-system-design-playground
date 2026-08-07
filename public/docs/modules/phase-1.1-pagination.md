@@ -79,22 +79,22 @@ flowchart TD
 
 ### 1. Naive Offset Pagination (GET Filtered)
 ```bash
-curl -s "http://localhost:3000/api/v1/db-pagination/naive/users?page=250000&limit=20&status=ACTIVE&minAge=25&maxAge=40"
+curl -s "http://localhost:3000/api/v1/db-pagination/naive/users?page=250000&limit=20&status=ACTIVE&minAge=10&maxAge=40"
 ```
 
 ### 2. Keyset Cursor Pagination (GET Filtered)
 ```bash
-curl -s "http://localhost:3000/api/v1/db-pagination/optimized/users/keyset?cursor=5000000&limit=20&status=ACTIVE&minAge=25&maxAge=40"
+curl -s "http://localhost:3000/api/v1/db-pagination/optimized/users/keyset?cursor=5000000&limit=20&status=ACTIVE&minAge=10&maxAge=40"
 ```
 
 ### 3. Deferred Join Offset Pagination (GET Filtered)
 ```bash
-curl -s "http://localhost:3000/api/v1/db-pagination/optimized/users/deferred-join?page=250000&limit=20&status=ACTIVE&minAge=25&maxAge=40"
+curl -s "http://localhost:3000/api/v1/db-pagination/optimized/users/deferred-join?page=250000&limit=20&status=ACTIVE&minAge=10&maxAge=40"
 ```
 
 ### 4. Pre-computed Page Map Pagination (GET Filtered)
 ```bash
-curl -s "http://localhost:3000/api/v1/db-pagination/optimized/users/page-map?page=250000&limit=20&status=ACTIVE&minAge=25&maxAge=40"
+curl -s "http://localhost:3000/api/v1/db-pagination/optimized/users/page-map?page=250000&limit=20&status=ACTIVE&minAge=10&maxAge=40"
 ```
 
 ### 5. Refresh Pre-computed Page Map Table (POST)

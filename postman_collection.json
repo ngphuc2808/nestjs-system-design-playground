@@ -62,7 +62,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:3000/api/v1/db-pagination/naive/users?page=250000&limit=20&status=ACTIVE&minAge=25&maxAge=40",
+              "raw": "http://localhost:3000/api/v1/db-pagination/naive/users?page=250000&limit=20&status=ACTIVE&minAge=10&maxAge=40",
               "protocol": "http",
               "host": ["localhost"],
               "port": "3000",
@@ -71,7 +71,7 @@
                 { "key": "page", "value": "250000" },
                 { "key": "limit", "value": "20" },
                 { "key": "status", "value": "ACTIVE" },
-                { "key": "minAge", "value": "25" },
+                { "key": "minAge", "value": "10" },
                 { "key": "maxAge", "value": "40" }
               ]
             }
@@ -83,7 +83,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:3000/api/v1/db-pagination/optimized/users/keyset?cursor=5000000&limit=20&status=ACTIVE&minAge=25&maxAge=40",
+              "raw": "http://localhost:3000/api/v1/db-pagination/optimized/users/keyset?cursor=5000000&limit=20&status=ACTIVE&minAge=10&maxAge=40",
               "protocol": "http",
               "host": ["localhost"],
               "port": "3000",
@@ -92,7 +92,7 @@
                 { "key": "cursor", "value": "5000000" },
                 { "key": "limit", "value": "20" },
                 { "key": "status", "value": "ACTIVE" },
-                { "key": "minAge", "value": "25" },
+                { "key": "minAge", "value": "10" },
                 { "key": "maxAge", "value": "40" }
               ]
             }
@@ -104,7 +104,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:3000/api/v1/db-pagination/optimized/users/deferred-join?page=250000&limit=20&status=ACTIVE&minAge=25&maxAge=40",
+              "raw": "http://localhost:3000/api/v1/db-pagination/optimized/users/deferred-join?page=250000&limit=20&status=ACTIVE&minAge=10&maxAge=40",
               "protocol": "http",
               "host": ["localhost"],
               "port": "3000",
@@ -113,7 +113,7 @@
                 { "key": "page", "value": "250000" },
                 { "key": "limit", "value": "20" },
                 { "key": "status", "value": "ACTIVE" },
-                { "key": "minAge", "value": "25" },
+                { "key": "minAge", "value": "10" },
                 { "key": "maxAge", "value": "40" }
               ]
             }
@@ -125,7 +125,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:3000/api/v1/db-pagination/optimized/users/page-map?page=250000&limit=20&status=ACTIVE&minAge=25&maxAge=40",
+              "raw": "http://localhost:3000/api/v1/db-pagination/optimized/users/page-map?page=250000&limit=20&status=ACTIVE&minAge=10&maxAge=40",
               "protocol": "http",
               "host": ["localhost"],
               "port": "3000",
@@ -134,7 +134,7 @@
                 { "key": "page", "value": "250000" },
                 { "key": "limit", "value": "20" },
                 { "key": "status", "value": "ACTIVE" },
-                { "key": "minAge", "value": "25" },
+                { "key": "minAge", "value": "10" },
                 { "key": "maxAge", "value": "40" }
               ]
             }
